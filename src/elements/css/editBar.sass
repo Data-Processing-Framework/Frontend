@@ -1,0 +1,61 @@
+@use 'colorPalette'
+$insetShadow: inset 6px 6px 12px colorPalette.$brightDarken    
+$shadow: 6px 6px 12px colorPalette.$brightDarken
+
+    
+div.editBar
+    box-sizing: border-box
+    position: absolute
+    width: 100%
+    height: 64px
+    left: 0px
+    top: 64px
+    background: colorPalette.$bright
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25)
+
+
+
+div.editButtons
+    display: flex
+    flex-direction: row
+    justify-content: center
+    align-items: center
+    height: 64px
+    gap: 2rem
+
+    
+
+.editButtons button
+    height: 42px
+    width: 42px
+    padding: 5px 0px
+    border: unset
+    border-radius: 15px
+    color: colorPalette.$dark
+    z-index: 1
+    background: colorPalette.$bright
+    position: relative
+    box-shadow: $shadow
+    overflow: hidden
+
+.editButtons button:active 
+    box-shadow: $insetShadow
+
+.editButtons img.button
+    height: 32px
+    width: 32px
+
+
+.editButtons hr.separators
+    flex: none
+    height: 32px
+    margin-block-start: 0.5em
+    margin-block-end: 0.5em
+    overflow: hidden
+    border-style: inset
+    border-width: 1px
+    padding: 0px
+    margin: 10px
+    height: 32px
+
+

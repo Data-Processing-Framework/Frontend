@@ -1,4 +1,5 @@
-import './App.css';
+import './App.sass';
+import './elements/css/colorPalette.sass'
 import { EditBar } from './elements/editBar';
 import {NavBar} from './elements/navBar'
 
