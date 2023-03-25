@@ -1,4 +1,4 @@
-import './editBar.css'
+import './css/editBar.sass'
 import undo from '../img/editBarIcons/Undo.png'
 import redo from '../img/editBarIcons/Redo.png'
 import move from '../img/editBarIcons/Move.png'
@@ -7,22 +7,38 @@ import addArestes from '../img/editBarIcons/Arestes.png'
 import viewLogs from '../img/editBarIcons/View.png'
 import save from '../img/editBarIcons/Save.png'
 import submit from '../img/editBarIcons/Submit.png'
-import bar from '../img/editBarIcons/Line.png'
 
 export function EditBar() {
     return (
         <div className="editBar">
             <div className='editButtons'>
-                <img className='button' src={undo} alt='undo' />
-                <img className='button' src={redo} alt='redo' />
+                <button>
+                    <img className='button' src={undo} alt='undo' />
+                </button>
+                <button>
+                    <img className='button' src={redo} alt='redo' />
+                </button>
+                
                 <hr className='separators'/>
-                <img className='button' src={move} alt='move' />
-                <img className='button' src={addNodes} alt='addNodes' />
-                <img className='button' src={addArestes} alt='addArestes' />
+                <button>
+                    <img className='button' src={move} alt='move' />
+                </button>
+                <button>
+                    <img className='button' src={addNodes} alt='addNodes' />
+                </button>
+                <button>
+                    <img className='button' src={addArestes} alt='addArestes' />
+                </button>
                 <hr className='separators'/>
-                <img className='button' src={viewLogs} alt='viewLogs' />
-                <img className='button' src={save} alt='save' />
-                <img className='button' src={submit} alt='submit' />
+                <button>
+                    <img className='button' src={viewLogs} alt='viewLogs' />
+                </button>
+                <button>
+                    <img className='button' src={save} alt='save' />
+                </button>
+                <button>
+                    <img className='button' src={submit} alt='submit' />
+                </button>
             </div>
         </div>
     );
