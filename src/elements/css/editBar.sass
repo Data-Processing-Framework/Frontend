@@ -6,12 +6,17 @@ $shadow: 6px 6px 12px colorPalette.$brightDarken
 div.editBar
     box-sizing: border-box
     position: absolute
-    width: 100%
     height: 64px
     left: 0px
     top: 64px
     background: colorPalette.$bright
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25)
+    z-index: -1
+    transition: 1s 
+    &.open
+        width: 70%
+    &.closed
+        width: 100%
 
 
 
