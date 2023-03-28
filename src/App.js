@@ -15,7 +15,7 @@ function App() {
     <div className={`App ${infoIsOpen ? 'open' : ''}`}>
       <NavBar toggleIngfo={handleToggleIngfo}/>
       <EditBar isOpen={infoIsOpen}/>
-      {infoIsOpen && <Info />}
+      <Info isOpen={infoIsOpen}/>
       <Graph />
     </div>
   );

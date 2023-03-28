@@ -1,35 +1,21 @@
 @use 'colorPalette'
 
 section.info-section
-    background-color: colorPalette.$bright
-    position: absolute
-    width: 30%
-    height: 100%
-    left: 70%
-    z-index: -1
-    box-shadow: -10px 0px 20px rgba(0, 0, 0, 0.25)
-    transition: 1s
-    overflow: hidden
-    &.closed
-        animation: slideOut 1s forwards
-    &.open
-        animation: slideIn 1s forwards
-
-
-@keyframes slideIn 
-  from 
-    transform: translateX(100%)
-  to 
-    transform: translateX(0%)
-
-@keyframes slideOut 
-  from 
-    transform: translateX(0%)
-  to 
-    transform: translateX(100%)
+  background-color: colorPalette.$bright
+  position: absolute
+  width: 30%
+  height: 100%
+  left: 100%
+  z-index: -1
+  box-shadow: -10px 0px 20px rgba(0, 0, 0, 0.25)
+  overflow: hidden
+  transition: transform 1s 
+  &.closed
+    transform: scaleX(0) translateX(0)
+  &.open
+    transform: scaleX(1) translateX(-100%)
+      
   
-
-
 div.info-start
     height: 100%
     margin-top: 64px
@@ -43,7 +29,7 @@ div.info-start
 $shadow: 6px 6px 12px colorPalette.$brightDarken
 div.info-card
     width: 90%
-    height: 50%
+    height: 375px
     margin-top: 10px
     padding: 20px
     border-radius: 15px

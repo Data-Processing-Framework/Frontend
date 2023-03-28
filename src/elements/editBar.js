@@ -18,8 +18,8 @@ export function EditBar(props) {
     }, [props.isOpen]);
 
     return (
-        <div className={`editBar ${infoOpen ? 'open' : 'closed'}`}>
-            <div className='editButtons'>
+        <div className="editBar">
+            <div className={`editButtons ${infoOpen ? 'open' : 'closed'}`}>
                 <button>
                     <img className='button' src={undo} alt='undo' />
                 </button>
