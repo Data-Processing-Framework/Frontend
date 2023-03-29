@@ -11,7 +11,8 @@ import './css/graf/graph.sass'
 
 import TextUpdaterNode from './grafParts/TextUpdaterNode.js';
 import './css/graf/text-updater-node.sass';
-
+import probaNode from './grafParts/probaNode.js';
+import './css/graf/proba.sass';
 
 const proOptions = { hideAttribution: true };
 
@@ -22,7 +23,7 @@ const initialNodes = [
   {
     id: '2',
     // you can also pass a React component as a label
-    data: { label: <div>Default Node</div> },
+    type: 'proba',
     position: { x: 100, y: 125 },
   },
   {
@@ -34,10 +35,10 @@ const initialNodes = [
 ];
 
 const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2' },
+  { id: 'e1-2', source: '1', target: '2', animated: true},
   { id: 'e2-3', source: '2', target: '3', animated: true },
 ];
-const nodeTypes = { textUpdater: TextUpdaterNode };
+const nodeTypes = { proba: probaNode, textUpdater: TextUpdaterNode };
 
 
 function Graph() {

@@ -1,12 +1,16 @@
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 import { Handle, Position } from 'reactflow';
 
 const handleStyle = { left: 10 };
 
 function TextUpdaterNode({ data, isConnectable }) {
-  
+  const [dades,setDades]=useState();
+  const [type,setType]=useState();
+
   const onChange = useCallback((evt) => {
-    console.log(evt.target.value);
+    setDades(evt.target.value);
+
+    //document.getElementById("dades").innerHTML = setDades(evt.target.value);
   }, []);
 
   return (
@@ -15,6 +19,8 @@ function TextUpdaterNode({ data, isConnectable }) {
       <div>
         <label htmlFor="text">Text:</label>
         <input id="text" name="text" onChange={onChange} className="nodrag" />
+        <label id="dades" htmlFor="text">{dades}</label>
+        <label id="dada" htmlFor="text"></label>
       </div>
       <Handle
         type="source"
@@ -27,5 +33,8 @@ function TextUpdaterNode({ data, isConnectable }) {
     </div>
   );
 }
+
+
+
 
 export default TextUpdaterNode;
