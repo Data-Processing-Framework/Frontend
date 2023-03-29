@@ -9,26 +9,28 @@ import ReactFlow, {
 import 'reactflow/dist/style.css';
 import './css/graf/graph.sass'
 
-import TextUpdaterNode from './grafParts/TextUpdaterNode.js';
+import InputNode from './grafNodes/inputNode.js';
 import './css/graf/text-updater-node.sass';
-import probaNode from './grafParts/probaNode.js';
+import ProcessingNode from './grafNodes/processingNode.js';
+import './css/graf/proba.sass';
+import OutputNode from './grafNodes/outputNode.js';
 import './css/graf/proba.sass';
 
 const proOptions = { hideAttribution: true };
 
 
 const initialNodes = [
-  { id: '1', type: 'textUpdater', position: { x: 0, y: 0 }, data: { value: 123 } },
+  { id: '1', type: 'Input', position: { x: 0, y: 0 }, data: { value: 123 } },
 
   {
     id: '2',
     // you can also pass a React component as a label
-    type: 'proba',
+    type: 'Processing',
     position: { x: 100, y: 125 },
   },
   {
     id: '3',
-    type: 'output',
+    type: 'Output',
     data: { label: 'Output Node' },
     position: { x: 250, y: 250 },
   },
@@ -38,7 +40,7 @@ const initialEdges = [
   { id: 'e1-2', source: '1', target: '2', animated: true},
   { id: 'e2-3', source: '2', target: '3', animated: true },
 ];
-const nodeTypes = { proba: probaNode, textUpdater: TextUpdaterNode };
+const nodeTypes = { Input: InputNode, Processing : ProcessingNode,Output : OutputNode };
 
 
 function Graph() {
