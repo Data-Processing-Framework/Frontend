@@ -7,21 +7,23 @@ import ReactFlow, {
   applyNodeChanges
  } from 'reactflow';
 import 'reactflow/dist/style.css';
-import './css/graph.sass'
+import './css/graf/graph.sass'
+
+import TextUpdaterNode from './grafParts/TextUpdaterNode.js';
+import './css/graf/text-updater-node.sass';
+import probaNode from './grafParts/probaNode.js';
+import './css/graf/proba.sass';
+
 const proOptions = { hideAttribution: true };
 
+
 const initialNodes = [
-  {
-    id: '1',
-    type: 'input',
-    data: { label: 'Input Node' },
-    position: { x: 250, y: 25 },
-  },
+  { id: '1', type: 'textUpdater', position: { x: 0, y: 0 }, data: { value: 123 } },
 
   {
     id: '2',
     // you can also pass a React component as a label
-    data: { label: <div>Default Node</div> },
+    type: 'proba',
     position: { x: 100, y: 125 },
   },
   {
@@ -33,9 +35,11 @@ const initialNodes = [
 ];
 
 const initialEdges = [
-  { id: 'e1-2', source: '1', target: '2' },
+  { id: 'e1-2', source: '1', target: '2', animated: true},
   { id: 'e2-3', source: '2', target: '3', animated: true },
 ];
+const nodeTypes = { proba: probaNode, textUpdater: TextUpdaterNode };
+
 
 function Graph() {
   
@@ -64,6 +68,7 @@ function Graph() {
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
+        nodeTypes={nodeTypes}
         fitView
         proOptions={proOptions}
         >
