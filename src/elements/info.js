@@ -19,9 +19,16 @@ export function InfoCards () {
     return(
         <div className='info-start'>
                 <div className="info-card">
-                    <h1>Name</h1>
-                    <h3>Description</h3>
-                    <Badge>Input</Badge>
+                    <div className='colorBackground'></div>
+                    <div className='text'>
+                        <h1>Id</h1><Badge>Input</Badge>
+                        <h3>Description</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin erat erat, accumsan in nisl at, euismod porta elit. Nullam a nisi neque. Ut nec interdum nisl.</p>
+                        <h3>Connections</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin erat erat, accumsan in nisl at, euismod porta elit. Nullam a nisi neque. Ut nec interdum nisl.</p>
+
+                    </div>
+                    
                 </div>
                 <div className="logs-card">
                 </div>
