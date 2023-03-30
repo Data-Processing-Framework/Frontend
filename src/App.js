@@ -1,6 +1,6 @@
 import './App.sass';
 import './elements/css/colorPalette.sass'
-import { EditBar } from './elements/editBar';
+import { SecondaryBar } from './elements/secondaryBar';
 import { NavBar } from './elements/navBar';
 import Graph from "./elements/graph"
 import { Info }  from './elements/info';
@@ -21,9 +21,9 @@ function App() {
   }
 
   return (
-    <div className={`App ${infoIsOpen ? 'open' : ''}`}>
-      <NavBar toggleIngfo={handleToggleIngfo}/>
-      <EditBar isOpen={infoIsOpen}/>
+    <div className='App'>
+      <NavBar toggleInfo={handleToggleIngfo} toggleMode={handleEditState}/>
+      <SecondaryBar isOpen={infoIsOpen} mode={editMode}/>
       <Info isOpen={infoIsOpen}/>
       <Graph />
     </div>

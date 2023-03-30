@@ -2,8 +2,13 @@
 $insetShadow: inset 6px 6px 12px colorPalette.$brightDarken    
 $shadow: 6px 6px 12px colorPalette.$brightDarken
 
-    
-div.editBar
+@keyframes fade
+    0%
+        opacity: 0
+    100%
+        opacity: 1
+
+div.editBar 
     box-sizing: border-box
     position: absolute
     height: 64px
@@ -13,6 +18,8 @@ div.editBar
     background: colorPalette.$bright
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.25)
     z-index: -1
+    transition: 0.3s 
+  
 
 div.editButtons
     display: flex
@@ -21,12 +28,12 @@ div.editButtons
     align-items: center
     height: 64px
     gap: 2rem
-    transition: 1s
+    animation: fade
+    animation-duration: 1s
     &.open
         margin-right: 30%
-    
 
-    
+
 
 .editButtons button
     height: 42px
