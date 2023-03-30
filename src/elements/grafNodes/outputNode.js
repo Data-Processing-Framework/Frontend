@@ -10,7 +10,7 @@ function otputNode({data, isConnectable}) {
   return (
     <div className="text-updater-node">
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
-      <BaseNode />
+      <BaseNode data={data}/>
     </div>
   );
 }

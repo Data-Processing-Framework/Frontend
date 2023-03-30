@@ -20,19 +20,21 @@ const proOptions = { hideAttribution: true };
 
 
 const initialNodes = [
-  { id: '1', type: 'Input', position: { x: 0, y: 0 }, data: { value: 123 } },
+  { id: '1', type: 'Input', position: { x: 0, y: 0 }, data: { type: 1,scriptName:"iiiiinnnn", script: "pathIn" ,id: "1"/*,connections:  []*/} },
 
   {
     id: '2',
     // you can also pass a React component as a label
     type: 'Processing',
     position: { x: 100, y: 125 },
+    data: { type: 2, scriptName:"proooocess", script: "pathPross" ,id: "2"/*,connections:  []*/} 
   },
   {
     id: '3',
     type: 'Output',
     data: { label: 'Output Node' },
-    position: { x: 250, y: 250 },
+    position: { x: 250, y: 250 }, 
+    data: { type: 3,scriptName:"oooout", script: "pathOut" ,id: "3"/*,connections:  []*/} 
   },
 ];
 

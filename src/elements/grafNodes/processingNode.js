@@ -11,7 +11,7 @@ function ProcessingNode({ data, isConnectable }) {
     <div className="text-updater-node">
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
       <Handle type="source" position={Position.Bottom} id="b" isConnectable={isConnectable} />
-      <BaseNode />
+      <BaseNode data={data}/>
     </div>
   );
 }

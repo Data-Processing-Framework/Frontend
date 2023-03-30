@@ -11,7 +11,7 @@ function InputNode({data, isConnectable}) {
   return (
     <div className="text-updater-node">
       <Handle type="source" position={Position.Bottom} id="b" isConnectable={isConnectable} />
-      <BaseNode />
+      <BaseNode data={data}/>
     </div>
   );
 }
