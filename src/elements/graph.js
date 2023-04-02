@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import ReactFlow, { 
   Background, 
   Controls,
@@ -17,6 +17,11 @@ import OutputNode from './grafNodes/outputNode.js';
 import './css/graf/proba.sass';
 
 const proOptions = { hideAttribution: true };
+
+const path= 'https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1';
+
+
+
 
 
 const initialNodes = [
@@ -46,7 +51,22 @@ const nodeTypes = { Input: InputNode, Processing : ProcessingNode,Output : Outpu
 
 
 function Graph() {
-  
+  const [mess,setMess]=useState();
+  const [obj,setObj]=useState();
+
+  useEffect(() => {
+    
+    // GET request using fetch inside useEffect React hook
+    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph')
+        //.then(response=> console.log(response))
+        .then((response) => {console.log(response);return response.json()})
+        .then((json) => {
+          setObj(json);
+          console.log(json);
+        });
+    
+  }, []);
+  console.log(obj);
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
 
