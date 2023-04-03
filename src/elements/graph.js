@@ -64,8 +64,7 @@ function Graph() {
           setObj(json);
           console.log(json);
         });
-    
-  }, []);
+      }, []);
   console.log(obj);
   const [nodes, setNodes] = useState(initialNodes);
   const [edges, setEdges] = useState(initialEdges);
@@ -83,8 +82,6 @@ function Graph() {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
-  
-  return (
     <div className='graph'>
       <ReactFlow 
         nodes={nodes}
@@ -95,7 +92,7 @@ function Graph() {
         nodeTypes={nodeTypes}
         fitView
         proOptions={proOptions}
-        >
+        />
         <Background />
         <Controls />
       </ReactFlow>

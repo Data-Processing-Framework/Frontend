@@ -2,8 +2,7 @@ import './css/navBar.sass'
 //import logo from '../img/logo.png'
 import './css/modulButton.sass'
 
-export function NavBar({toggleInfo, toggleMode}) {
-
+export function NavBar({toggleInfo, toggleMode, toggleModuls}) {
     return (
       <nav className='navBar'>
         <div className="leftNav">
@@ -12,7 +11,7 @@ export function NavBar({toggleInfo, toggleMode}) {
         <div className="rightNav">
           <button onClick={toggleMode}>Mode</button>
           <button onClick={toggleInfo}>Info</button>
-          <button>Moduls</button>
+          <button onClick={toggleModuls}>Moduls</button>
         </div>
       </nav>
     );
