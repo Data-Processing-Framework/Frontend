@@ -1,4 +1,5 @@
 import './css/editBar.sass'
+import './css/activeBar.sass'
 import undo from '../img/editBarIcons/Undo.png'
 import redo from '../img/editBarIcons/Redo.png'
 import move from '../img/editBarIcons/Move.png'
@@ -7,11 +8,32 @@ import addArestes from '../img/editBarIcons/Arestes.png'
 import viewLogs from '../img/editBarIcons/View.png'
 import save from '../img/editBarIcons/Save.png'
 import submit from '../img/editBarIcons/Submit.png'
+import React, {useState, useEffect} from 'react'
 
-export function EditBar() {
+export function SecondaryBar(props) {
+
+    const [mode, changeMode] = useState(props.mode);
+    useEffect(() => {
+        changeMode(props.mode);
+    }, [props.mode]);
+    
     return (
-        <div className="editBar">
-            <div className='editButtons'>
+        <div className={`${mode ? 'editBar' : 'activeBar'}`}>
+            {mode && <EditBar isOpen={props.isOpen} />}
+        </div>
+    );
+}
+
+export function EditBar(props) {
+    //Gets and updates sates of the info module
+    //in order to update the width
+    const [infoOpen, setInfoOpen] = useState(props.isOpen);
+    useEffect(() => {
+        setInfoOpen(props.isOpen);
+    }, [props.isOpen]);
+
+    return(
+        <div className={`editButtons ${infoOpen ? 'open' : 'closed'} `} >
                 <button>
                     <img className='button' src={undo} alt='undo' />
                 </button>
@@ -40,6 +62,5 @@ export function EditBar() {
                     <img className='button' src={submit} alt='submit' />
                 </button>
             </div>
-        </div>
-    );
+    )
 }

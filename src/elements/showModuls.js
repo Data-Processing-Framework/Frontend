@@ -1,6 +1,5 @@
 import './css/showModuls.sass'
 export function ShowModuls({toggleModuls}) {
-
     return (
       <div className='showModuls'>
         <div className="showModuls-card">

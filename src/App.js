@@ -1,14 +1,3 @@
-<<<<<<< Updated upstream
-import './App.css';
-import { EditBar } from './elements/editBar';
-import {NavBar} from './elements/navBar'
-
-function App() {
-  return (
-    <div className="App">
-      <NavBar />
-      <EditBar />
-=======
 import './App.sass';
 import './elements/css/colorPalette.sass'
 import { SecondaryBar } from './elements/secondaryBar';
@@ -49,7 +38,6 @@ function App() {
       <Info isOpen={infoIsOpen}/>
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
       <Graph />
->>>>>>> Stashed changes
     </div>
   );
 }
