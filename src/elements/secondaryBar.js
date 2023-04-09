@@ -1,5 +1,6 @@
 import './css/editBar.sass'
 import './css/activeBar.sass'
+import { Popover } from 'bootstrap'
 import undo from '../img/editBarIcons/Undo.png'
 import redo from '../img/editBarIcons/Redo.png'
 import move from '../img/editBarIcons/Move.png'
@@ -40,7 +41,6 @@ export function EditBar(props) {
                 <button>
                     <img className='button' src={redo} alt='redo' />
                 </button>
-                
                 <hr className='separators'/>
                 <button>
                     <img className='button' src={move} alt='move' />

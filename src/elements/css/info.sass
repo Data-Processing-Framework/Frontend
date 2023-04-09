@@ -2,37 +2,30 @@
 
 section.info-section
   background-color: colorPalette.$bright
-  position: absolute
-  width: 30%
-  height: 100%
-  left: 100%
   z-index: -1
   box-shadow: -10px 0px 20px rgba(0, 0, 0, 0.25)
   overflow: hidden
-  transition: transform 1s 
-  &.closed
-    transform: scaleX(0) translateX(0)
-  &.open
-    transform: scaleX(1) translateX(-100%)
+  transition: transform 1s
+  
       
   
 div.info-start
-    height: 100%
-    margin-top: 64px
-    display: flex
-    flex-direction: column
-    justify-content: flex-start
-    align-items: center
-    gap: 10px
-    overflow: hidden
+  height: 100%
+  margin-top: 64px
+  display: flex
+  flex-direction: column
+  gap: 10px
+  overflow: hidden
 
 $shadow: 6px 6px 12px colorPalette.$brightDarken
+
 div.info-card
   width: 90%
   height: auto
-  margin-top: 10px
   border-radius: 15px
   content-start: 120px
+
+  align-self: center
 
   color: colorPalette.$dark
   background: colorPalette.$bright

@@ -7,6 +7,7 @@ import {ShowModuls} from "./elements/showModuls"
 import { Info }  from './elements/info';
 import React, {useState} from 'react';
 import { useStore } from 'reactflow';
+import { Alert } from './elements/alerts';
 
 function App() {
   //Handles if info section is visible or not
@@ -35,9 +36,10 @@ function App() {
         toggleModuls={handleToggleModuls}
       />
       <SecondaryBar isOpen={infoIsOpen} mode={editMode}/>
-      <Info isOpen={infoIsOpen}/>
+      <Info isOpen={infoIsOpen} toggleInfo={handleToggleInfo} />
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
       <Graph />
+      <Alert />
     </div>
   );
 }

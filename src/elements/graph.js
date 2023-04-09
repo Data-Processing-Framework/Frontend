@@ -57,7 +57,7 @@ function Graph() {
   useEffect(() => {
     
     // GET request using fetch inside useEffect React hook
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph')
+    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1')
         //.then(response=> console.log(response))
         .then((response) => {console.log(response);return response.json()})
         .then((json) => {
@@ -82,6 +82,7 @@ function Graph() {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
+  return (
     <div className='graph'>
       <ReactFlow 
         nodes={nodes}
@@ -92,7 +93,7 @@ function Graph() {
         nodeTypes={nodeTypes}
         fitView
         proOptions={proOptions}
-        />
+        >
         <Background />
         <Controls />
       </ReactFlow>

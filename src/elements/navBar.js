@@ -6,7 +6,7 @@ export function NavBar({toggleInfo, toggleMode, toggleModuls}) {
     return (
       <nav className='navBar'>
         <div className="leftNav">
-          <h1> Data Processing Framework </h1>
+          <h2 className='mb-0'> Data Processing Framework </h2>
         </div>
         <div className="rightNav">
           <button onClick={toggleMode}>Mode</button>
