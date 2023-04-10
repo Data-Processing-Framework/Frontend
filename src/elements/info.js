@@ -21,12 +21,15 @@ export function InfoCards ({toggleInfo}) {
                 <div className="info-card">
                     <div className='colorBackground'></div>
                     <div className='text'>
-                        <h1>Id</h1><Badge>Input</Badge>
-                        <h3>Description</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin erat erat, accumsan in nisl at, euismod porta elit. Nullam a nisi neque. Ut nec interdum nisl.</p>
-                        <h3>Connections</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin erat erat, accumsan in nisl at, euismod porta elit. Nullam a nisi neque. Ut nec interdum nisl.</p>
-
+                        <div className='Header'>
+                            <h1>Node: 1</h1><Badge>Input</Badge>
+                        </div>
+                        <div className='infoBody'>
+                            <h5>Information</h5>
+                            <p>Position: 0,0</p>
+                            <p>Modul: fromDatabase.py</p>
+                            <p>Connections: 2</p>
+                        </div>
                     </div>
                 </div>
                 <div className="logs-card">

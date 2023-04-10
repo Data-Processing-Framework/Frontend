@@ -19,10 +19,9 @@ function BaseNode({ data, isConnectable }) {
   return (
 
     <div>
-      <label id="id" htmlFor="text">{id}</label>
-      <label id="scriptName" htmlFor="text">{scriptName}</label>
-      <label id="script" htmlFor="text">{script}</label>
-      <label id="type" htmlFor="type">{type}</label>
+      <label id="id" htmlFor="text">Id: {id}</label>
+      <label id="scriptName" htmlFor="text">Type: {scriptName}</label>
+      <label id="script" htmlFor="text">Modul: {script}</label>
     </div>
   );
 }
