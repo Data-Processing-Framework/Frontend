@@ -5,15 +5,13 @@ import BaseNode from './baseNode.js';
 
 const handleStyle = { left: 10 };
 
-function ProcessingNode({ data, isConnectable }) {
-
+function TransformNode({ data, isConnectable }) {
   return (
     <div className="text-updater-node">
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
-      <Handle type="source" position={Position.Bottom} id="b" isConnectable={isConnectable} />
+      <Handle type="source" position={Position.Bottom}  isConnectable={isConnectable} />
       <BaseNode data={data}/>
     </div>
   );
 }
-
-export default ProcessingNode;
+export default TransformNode;

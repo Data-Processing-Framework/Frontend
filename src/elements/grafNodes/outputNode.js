@@ -5,8 +5,7 @@ import BaseNode from './baseNode.js';
 
 const handleStyle = { left: 10 };
 
-function otputNode({data, isConnectable}) {
-
+function OutputNode({data, isConnectable}) {
   return (
     <div className="text-updater-node">
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
@@ -14,8 +13,4 @@ function otputNode({data, isConnectable}) {
     </div>
   );
 }
-
-
-
-
-export default otputNode;
+export default OutputNode;
