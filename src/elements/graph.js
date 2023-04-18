@@ -56,6 +56,7 @@ function Graph(props) {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
+
   const onNodeDoubleClick = (event, node) => {
     props.setSelectedNode(node)
     console.log("Selected node: " + node.id)

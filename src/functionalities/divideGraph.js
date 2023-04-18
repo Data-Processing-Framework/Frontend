@@ -25,7 +25,7 @@ export function divideGraph(initialGraph) {
         newEdges.id = sourceNodeId + "-" + targetNodeId;
         newEdges.source = `${sourceNodeId}`;
         newEdges.target = `${targetNodeId}`;
-        newEdges.animated = true;
+        newEdges.animated = false;
         edges.push(newEdges);
     }
   }

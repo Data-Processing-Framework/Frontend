@@ -44,7 +44,7 @@ function App() {
       <SecondaryBar isOpen={infoNode} mode={editMode}/>
       <Info node={infoNode} closeInfo={closeInfo}/>
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
-      <Graph setSelectedNode={setInfo} selectedNode={infoNode}/>
+      <Graph setSelectedNode={setInfo} selectedNode={infoNode} closeInfo={closeInfo}/>
       <Alert />
     </div>
   );
