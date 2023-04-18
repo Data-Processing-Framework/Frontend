@@ -11,10 +11,17 @@ import { Alert } from './elements/alerts';
 
 function App() {
   //Handles if info section is visible or not
-  const [infoIsOpen, setInfoIsOpen] = useState(false);
-  const handleToggleInfo = () => {
-    setInfoIsOpen(!infoIsOpen)
+  const [infoNode, setInfoNode] = useState(null);
+  const closeInfo = () => {
+    setInfoNode(null)
   }
+  const setInfo = (node) => {
+    if (infoNode != null){
+      setInfoNode(null)
+    } 
+    setInfoNode(node)
+  }
+
 
   //Handles if moduls section is visible or not
   const [modulsIsOpen, setModulsIsOpen] = useState(false);
@@ -31,14 +38,13 @@ function App() {
   return (
     <div className='App'>
       <NavBar 
-        toggleInfo={handleToggleInfo} 
         toggleMode={handleEditState} 
         toggleModuls={handleToggleModuls}
       />
-      <SecondaryBar isOpen={infoIsOpen} mode={editMode}/>
-      <Info isOpen={infoIsOpen} toggleInfo={handleToggleInfo} />
+      <SecondaryBar isOpen={infoNode} mode={editMode}/>
+      <Info node={infoNode} closeInfo={closeInfo}/>
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
-      <Graph />
+      <Graph setSelectedNode={setInfo} selectedNode={infoNode}/>
       <Alert />
     </div>
   );

@@ -4,7 +4,9 @@ import ReactFlow, {
   Controls,
   addEdge,
   applyEdgeChanges,
-  applyNodeChanges
+  applyNodeChanges,
+  useNodeId,
+  useNodes
  } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './css/graf/graph.sass'
@@ -14,7 +16,7 @@ import './css/graf/text-updater-node.sass';
 import ProcessingNode from './grafNodes/processingNode.js';
 import './css/graf/proba.sass';
 import OutputNode from './grafNodes/outputNode.js';
-import './css/graf/proba.sass';
+//import './css/graf/proba.sass';
 
 
 import { divideGraph } from "../functionalities/divideGraph";
@@ -23,9 +25,10 @@ const proOptions = { hideAttribution: true };
 
 const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : OutputNode };
 
-function Graph() {
+function Graph(props) {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  //Get graph from the API 
   useEffect(() => {
     fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph')
     //.then(response=> console.log(response))
@@ -53,6 +56,30 @@ function Graph() {
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
   );
+  const onNodeDoubleClick = (event, node) => {
+    props.setSelectedNode(node)
+    console.log("Selected node: " + node.id)
+  };
+
+  useEffect(() => {
+    setNodes((nds) =>
+      nds.map((node) => {{node !== null ? node.position.x : null}
+        if (node.id === (props.selectedNode !== null ? props.selectedNode.id : null)) {
+          //Change border when node is selected
+          node.selected=true
+          node.style = { 
+            border: "2px solid grey", 
+            'borderRadius': "5px" };
+        }
+        else{
+          //reset border value when deselected
+          node.style = {};
+          node.selected = false
+        }
+        return node;
+      })
+    );
+  }, [props.selectedNode, setNodes]);
 
   return (
     <div className='graph'>
@@ -61,6 +88,7 @@ function Graph() {
         edges={edges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
+        onNodeDoubleClick={onNodeDoubleClick}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         fitView

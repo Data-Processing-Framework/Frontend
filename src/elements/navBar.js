@@ -10,7 +10,6 @@ export function NavBar({toggleInfo, toggleMode, toggleModuls}) {
         </div>
         <div className="rightNav">
           <button onClick={toggleMode}>Mode</button>
-          <button onClick={toggleInfo}>Info</button>
           <button onClick={toggleModuls}>Moduls</button>
         </div>
       </nav>
