@@ -19,11 +19,11 @@ export function InfoCards ({closeInfo, node}) {
             <div className='info-start'>
                 <button type="button" class="btn-close m-2" aria-label="Close" onClick={closeInfo}></button>
                 <div className="info-card">
-                    <div className='colorBackground'></div>
+                    <div className={`colorBackground ${node !== null ? node.type : null}BG`}></div>
                     <div className='text'>
                         <div className='Header'>
                             <h1>Node: {node !== null ? node.id : null}</h1>
-                            <Badge>{node !== null ? node.type : null}</Badge>
+                            <span className={`badge ${node !== null ? node.type : null}`}>{node !== null ? node.type : null}</span>
                         </div>
                         <div className='infoBody'>
                             <h5>Information</h5>

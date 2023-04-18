@@ -7,7 +7,7 @@ const handleStyle = { left: 10 };
 
 function InputNode({data, isConnectable}) {
   return (
-    <div className="text-updater-node">
+    <div className={`node input`}>
       <Handle type="source" position={Position.Bottom} isConnectable={isConnectable} />
       <BaseNode data={data}/>
     </div>

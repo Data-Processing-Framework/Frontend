@@ -7,7 +7,7 @@ const handleStyle = { left: 10 };
 
 function TransformNode({ data, isConnectable }) {
   return (
-    <div className="text-updater-node">
+    <div className={`node transform`}>
       <Handle type="target" position={Position.Top} isConnectable={isConnectable} />
       <Handle type="source" position={Position.Bottom}  isConnectable={isConnectable} />
       <BaseNode data={data}/>

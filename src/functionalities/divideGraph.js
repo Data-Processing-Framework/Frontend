@@ -6,7 +6,7 @@ export function divideGraph(initialGraph) {
     var newNode = {};
     newNode.id = `${i}`;
     newNode.type = initialGraph[i].type;
-    newNode.position = { x: 0, y: 0 };
+    newNode.position = { x: initialGraph[i].position[0], y: initialGraph[i].position[1] };
     newNode.data = {};
     newNode.type = initialGraph[i].type;
     newNode.data.type = initialGraph[i].type;
