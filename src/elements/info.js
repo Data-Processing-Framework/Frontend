@@ -8,8 +8,8 @@ export function Info (props) {
         setNode(props.node);
     }, [props.node]);
     return (
-        <section className={` info-section offcanvas offcanvas-end ${node ? 'show' : ''}`} id="offcanvasInfo">
-            {node && <InfoCards closeInfo={props.closeInfo} node={props.node}/>}
+        <section className={` info-section offcanvas offcanvas-end ${props.open ? 'show' : ''}`} id="offcanvasInfo">
+            {props.open && <InfoCards closeInfo={props.closeInfo} node={props.node}/>}
         </section> 
     ); 
 }

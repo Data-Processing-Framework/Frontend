@@ -13,7 +13,7 @@ export function divideGraph(initialGraph) {
     newNode.data.scriptName = initialGraph[i].module
     newNode.data.script = initialGraph[i].module
     newNode.data.id = i
-    newNode.data.name = initialGraph[i].name;
+    newNode.data.name = initialGraph[i].name
     nodes.push(newNode);
   }
   //setup edges

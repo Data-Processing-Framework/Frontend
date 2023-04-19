@@ -57,10 +57,23 @@ function Graph(props) {
     [setEdges]
   );
 
+  const onNodeClick = (event, node) => {
+    props.setSelectedNode(node)
+  }
+
   const onNodeDoubleClick = (event, node) => {
     props.setSelectedNode(node)
+    props.openInfo()
     console.log("Selected node: " + node.id)
   };
+  
+  const onNodesDelete = (node) => {
+    props.closeInfo()
+  }
+
+  const onPaneClick = (event) => {
+    props.closeInfo()
+  }
 
   useEffect(() => {
     setNodes((nds) =>
@@ -69,7 +82,7 @@ function Graph(props) {
           //Change border when node is selected
           node.selected=true
           node.style = { 
-            border: "2px solid grey", 
+            border: "2px solid #b6b6b9", 
             'borderRadius': "5px" };
         }
         else{
@@ -86,10 +99,13 @@ function Graph(props) {
     <div className='graph'>
       <ReactFlow 
         nodes={nodes}
-        edges={edges}
         onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
+        onNodesDelete={onNodesDelete}
+        onNodeClick={onNodeClick}
         onNodeDoubleClick={onNodeDoubleClick}
+        edges={edges}
+        onEdgesChange={onEdgesChange}
+        onPaneClick={onPaneClick}
         onConnect={onConnect}
         nodeTypes={nodeTypes}
         fitView

@@ -12,8 +12,13 @@ import { Alert } from './elements/alerts';
 function App() {
   //Handles if info section is visible or not
   const [infoNode, setInfoNode] = useState(null);
+  const [infoOpen, setInfoOpen] = useState(false);
   const closeInfo = () => {
+    setInfoOpen(false)
     setInfoNode(null)
+  }
+  const openInfo = () => {
+    setInfoOpen(true)
   }
   const setInfo = (node) => {
     if (infoNode != null){
@@ -21,6 +26,7 @@ function App() {
     } 
     setInfoNode(node)
   }
+  
 
 
   //Handles if moduls section is visible or not
@@ -42,9 +48,14 @@ function App() {
         toggleModuls={handleToggleModuls}
       />
       <SecondaryBar isOpen={infoNode} mode={editMode}/>
-      <Info node={infoNode} closeInfo={closeInfo}/>
+      <Info open={infoOpen}node={infoNode} closeInfo={closeInfo}/>
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
-      <Graph setSelectedNode={setInfo} selectedNode={infoNode} closeInfo={closeInfo}/>
+      <Graph 
+        setSelectedNode={setInfo} 
+        selectedNode={infoNode} 
+        closeInfo={closeInfo} 
+        openInfo={openInfo}
+      />
       <Alert />
     </div>
   );
