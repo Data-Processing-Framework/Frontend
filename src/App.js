@@ -1,20 +1,15 @@
 import './App.sass';
 import './elements/css/colorPalette.sass'
-import { SecondaryBar } from './elements/secondaryBar';
 import { NavBar } from './elements/navBar';
 import ReactFlowProvider from "./elements/graph"
 import {ShowModuls} from "./elements/showModuls"
 import { Info }  from './elements/info';
 import React, {useState, useEffect} from 'react';
-import { useReactFlow } from 'reactflow';
 import  Alert from './elements/alerts';
 
 const flowKey = 'DPF-Graph';
 
 function App() {
-  //----------------------------Instances----------------------------------------
-  const [rfInstance, setRfInstance] = useState(null) //saves the current graph state
-
   //---------------------------Visibiility Handlers-----------------------------------------
   //Handles if info section is visible or not
   const [infoNode, setInfoNode] = useState(null);
@@ -99,10 +94,6 @@ function App() {
 
         toggleModuls={handleToggleModuls}
       />
-      <SecondaryBar 
-        isOpen={infoOpen} 
-        mode={editMode}
-      />
       <Info 
         open={infoOpen} 
         node={infoNode} 
@@ -114,14 +105,11 @@ function App() {
         selectedNode={infoNode} 
         closeInfo={closeInfo} 
         openInfo={openInfo}
-        rfInstance={rfInstance}
+        isOpen={infoOpen} 
+        mode={editMode}
       />
       <Alert/>
     </div>
   );
 }
 export default App;
-
-function printError(error) {
-  <Alert error={error} /> ;
-}

@@ -11,6 +11,7 @@ import ReactFlow, {
  } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './css/graf/graph.sass'
+import { SecondaryBar } from "./secondaryBar";
 
 import InputNode from './grafNodes/inputNode.js';
 import './css/graf/text-updater-node.sass';
@@ -31,6 +32,7 @@ const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : Output
 function Graph(props) {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
 
   //Get graph from the API 
@@ -105,7 +107,9 @@ function Graph(props) {
       const flow = props.rfInstance.toObject();
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
+    console.log("Save Done")
   }, [props.rfInstance]);
+  //TODO make this work
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
@@ -116,46 +120,49 @@ function Graph(props) {
         setEdges(flow.edges || []);
         setViewport({ x, y, zoom });
       }
+      console.log("Restore Done")
     };
     restoreFlow();
   }, [setNodes, setViewport]);
   return (
-    <div className='graph'>
-      <ReactFlow 
-        nodes={nodes}
-        onNodesChange={onNodesChange}
-        onNodesDelete={onNodesDelete}
-        onNodeClick={onNodeClick}
-        onNodeDoubleClick={onNodeDoubleClick}
-        edges={edges}
-        onEdgesChange={onEdgesChange}
-        onPaneClick={onPaneClick}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        fitView
-        proOptions={proOptions}
+    
+    <div className='editSection'>
+      <SecondaryBar 
+        isOpen={props.isOpen} 
+        mode={props.mode}
         onSave={onSave}
         onRestore={onRestore}
-        >
-        <Background />
-        <Controls />
-      </ReactFlow>
+      />
+      <div className='graph'>
+        <ReactFlow 
+          nodes={nodes}
+          onNodesChange={onNodesChange}
+          onNodesDelete={onNodesDelete}
+          onNodeClick={onNodeClick}
+          onNodeDoubleClick={onNodeDoubleClick}
+          edges={edges}
+          onEdgesChange={onEdgesChange}
+          onPaneClick={onPaneClick}
+          onConnect={onConnect}
+          nodeTypes={nodeTypes}
+          fitView
+          proOptions={proOptions}
+          onSave={onSave}
+          onRestore={onRestore}
+          >
+          <Background />
+          <Controls />
+        </ReactFlow>
+      </div>
     </div>
   );
 }
 
-function FlowWithProvider(setInfo, infoNode, closeInfo, openInfo, rfInstance) {
-  return (
+export default (props) => (
     <ReactFlowProvider>
       <Graph
-        setSelectedNode={setInfo} 
-        selectedNode={infoNode} 
-        closeInfo={closeInfo} 
-        openInfo={openInfo}
-        rfInstance={rfInstance}
+        {...props}
       />
     </ReactFlowProvider>
-  );
-}
+);
 
-export default FlowWithProvider;
