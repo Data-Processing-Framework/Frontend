@@ -5,8 +5,9 @@ import ReactFlow, {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
-  useNodeId,
-  useNodes
+  useReactFlow,
+  ReactFlowProvider 
+
  } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './css/graf/graph.sass'
@@ -21,6 +22,8 @@ import OutputNode from './grafNodes/outputNode.js';
 
 import { divideGraph } from "../functionalities/divideGraph";
 
+const flowKey = 'DPF-Graph';
+
 const proOptions = { hideAttribution: true };
 
 const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : OutputNode };
@@ -28,6 +31,8 @@ const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : Output
 function Graph(props) {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  const { setViewport } = useReactFlow();
+
   //Get graph from the API 
   useEffect(() => {
     fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph')
@@ -95,6 +100,25 @@ function Graph(props) {
     );
   }, [props.selectedNode, setNodes]);
 
+  const onSave = useCallback(() => {
+    if (props.rfInstance) {
+      const flow = props.rfInstance.toObject();
+      localStorage.setItem(flowKey, JSON.stringify(flow));
+    }
+  }, [props.rfInstance]);
+  const onRestore = useCallback(() => {
+    const restoreFlow = async () => {
+      const flow = JSON.parse(localStorage.getItem(flowKey));
+
+      if (flow) {
+        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        setNodes(flow.nodes || []);
+        setEdges(flow.edges || []);
+        setViewport({ x, y, zoom });
+      }
+    };
+    restoreFlow();
+  }, [setNodes, setViewport]);
   return (
     <div className='graph'>
       <ReactFlow 
@@ -110,6 +134,8 @@ function Graph(props) {
         nodeTypes={nodeTypes}
         fitView
         proOptions={proOptions}
+        onSave={onSave}
+        onRestore={onRestore}
         >
         <Background />
         <Controls />
@@ -118,4 +144,18 @@ function Graph(props) {
   );
 }
 
-export default Graph;
+function FlowWithProvider(setInfo, infoNode, closeInfo, openInfo, rfInstance) {
+  return (
+    <ReactFlowProvider>
+      <Graph
+        setSelectedNode={setInfo} 
+        selectedNode={infoNode} 
+        closeInfo={closeInfo} 
+        openInfo={openInfo}
+        rfInstance={rfInstance}
+      />
+    </ReactFlowProvider>
+  );
+}
+
+export default FlowWithProvider;
