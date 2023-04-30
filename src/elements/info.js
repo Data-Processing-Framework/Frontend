@@ -1,4 +1,3 @@
-import { Badge } from 'react-bootstrap';
 import './css/info.sass'
 import React, {useState, useEffect} from 'react'
 

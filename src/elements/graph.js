@@ -5,11 +5,13 @@ import ReactFlow, {
   addEdge,
   applyEdgeChanges,
   applyNodeChanges,
-  useNodeId,
-  useNodes
+  useReactFlow,
+  ReactFlowProvider 
+
  } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './css/graf/graph.sass'
+import { SecondaryBar } from "./secondaryBar";
 
 import InputNode from './grafNodes/inputNode.js';
 import './css/graf/text-updater-node.sass';
@@ -21,6 +23,8 @@ import OutputNode from './grafNodes/outputNode.js';
 
 import { divideGraph } from "../functionalities/divideGraph";
 
+const flowKey = 'DPF-Graph';
+
 const proOptions = { hideAttribution: true };
 
 const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : OutputNode };
@@ -28,6 +32,9 @@ const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : Output
 function Graph(props) {
   const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
+  const [rfInstance, setRfInstance] = useState(null);
+  const { setViewport } = useReactFlow();
+
   //Get graph from the API 
   useEffect(() => {
     fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph')
@@ -95,27 +102,67 @@ function Graph(props) {
     );
   }, [props.selectedNode, setNodes]);
 
+  const onSave = useCallback(() => {
+    if (props.rfInstance) {
+      const flow = props.rfInstance.toObject();
+      localStorage.setItem(flowKey, JSON.stringify(flow));
+    }
+    console.log("Save Done")
+  }, [props.rfInstance]);
+  //TODO make this work
+  const onRestore = useCallback(() => {
+    const restoreFlow = async () => {
+      const flow = JSON.parse(localStorage.getItem(flowKey));
+
+      if (flow) {
+        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+        setNodes(flow.nodes || []);
+        setEdges(flow.edges || []);
+        setViewport({ x, y, zoom });
+      }
+      console.log("Restore Done")
+    };
+    restoreFlow();
+  }, [setNodes, setViewport]);
   return (
-    <div className='graph'>
-      <ReactFlow 
-        nodes={nodes}
-        onNodesChange={onNodesChange}
-        onNodesDelete={onNodesDelete}
-        onNodeClick={onNodeClick}
-        onNodeDoubleClick={onNodeDoubleClick}
-        edges={edges}
-        onEdgesChange={onEdgesChange}
-        onPaneClick={onPaneClick}
-        onConnect={onConnect}
-        nodeTypes={nodeTypes}
-        fitView
-        proOptions={proOptions}
-        >
-        <Background />
-        <Controls />
-      </ReactFlow>
+    
+    <div className='editSection'>
+      <SecondaryBar 
+        isOpen={props.isOpen} 
+        mode={props.mode}
+        onSave={onSave}
+        onRestore={onRestore}
+      />
+      <div className='graph'>
+        <ReactFlow 
+          nodes={nodes}
+          onNodesChange={onNodesChange}
+          onNodesDelete={onNodesDelete}
+          onNodeClick={onNodeClick}
+          onNodeDoubleClick={onNodeDoubleClick}
+          edges={edges}
+          onEdgesChange={onEdgesChange}
+          onPaneClick={onPaneClick}
+          onConnect={onConnect}
+          nodeTypes={nodeTypes}
+          fitView
+          proOptions={proOptions}
+          onSave={onSave}
+          onRestore={onRestore}
+          >
+          <Background />
+          <Controls />
+        </ReactFlow>
+      </div>
     </div>
   );
 }
 
-export default Graph;
+export default (props) => (
+    <ReactFlowProvider>
+      <Graph
+        {...props}
+      />
+    </ReactFlowProvider>
+);
+
