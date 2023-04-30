@@ -50,6 +50,7 @@ function App() {
       <SecondaryBar isOpen={infoNode} mode={editMode}/>
       <Info open={infoOpen}node={infoNode} closeInfo={closeInfo}/>
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
+      
       <Graph 
         setSelectedNode={setInfo} 
         selectedNode={infoNode} 

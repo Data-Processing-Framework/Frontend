@@ -4,7 +4,7 @@ div.showModuls
     display: flex
     justify-content: center
     align-items: center
-    position: absolute
+    position: fixed
     top: 0
     left: 0
     width: 100%
@@ -12,6 +12,10 @@ div.showModuls
     background-color: #b0b0b0c0
     backdrop-filter: blur(2px)
     z-index: 4
+    
+
+
+
 
 div.showModuls-card
     display: flex
@@ -20,3 +24,19 @@ div.showModuls-card
     height: 90%
     background-color: colorPalette.$bright
     border-radius: 25px
+
+#accordionExample
+    overflow-x: hidden
+    overflow-y: auto
+
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+#accordionExample::-webkit-scrollbar 
+    display: none
+
+
+/* Hide scrollbar for IE, Edge and Firefox */
+#accordionExample 
+  -ms-overflow-style: none
+  scrollbar-width: none
+
