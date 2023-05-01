@@ -3,8 +3,8 @@ import ReactFlow, {
   Background, 
   Controls,
   addEdge,
-  applyEdgeChanges,
-  applyNodeChanges,
+  useNodesState,
+  useEdgesState,
   useReactFlow,
   ReactFlowProvider 
 
@@ -29,12 +29,12 @@ const proOptions = { hideAttribution: true };
 
 const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : OutputNode };
 
-function Graph(props) {
-  const [nodes, setNodes] = useState([]);
-  const [edges, setEdges] = useState([]);
+const Graph = (props) => {
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
-
+ 
   //Get graph from the API 
   useEffect(() => {
     fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph')
@@ -49,16 +49,6 @@ function Graph(props) {
       setEdges(initialEdges)
     });
   }, []); 
-
-  const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
-  );
-  const onEdgesChange = useCallback(
-    (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
-    [setEdges]
-  );
-
   const onConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
     [setEdges]
@@ -103,13 +93,13 @@ function Graph(props) {
   }, [props.selectedNode, setNodes]);
 
   const onSave = useCallback(() => {
-    if (props.rfInstance) {
-      const flow = props.rfInstance.toObject();
+    if (rfInstance) {
+      const flow = rfInstance.toObject();
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
-    console.log("Save Done")
-  }, [props.rfInstance]);
-  //TODO make this work
+    
+  }, [rfInstance]);
+
   const onRestore = useCallback(() => {
     const restoreFlow = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
@@ -120,10 +110,22 @@ function Graph(props) {
         setEdges(flow.edges || []);
         setViewport({ x, y, zoom });
       }
-      console.log("Restore Done")
     };
+
     restoreFlow();
   }, [setNodes, setViewport]);
+
+  const onAdd = useCallback(() => {
+    const newNode = {
+      id: getNodeId(),
+      data: { label: 'Added node' },
+      position: {
+        x: Math.random() * window.innerWidth - 100,
+        y: Math.random() * window.innerHeight,
+      },
+    };
+    setNodes((nds) => nds.concat(newNode));
+  }, [setNodes]);
   return (
     
     <div className='editSection'>
@@ -140,15 +142,16 @@ function Graph(props) {
           onNodesDelete={onNodesDelete}
           onNodeClick={onNodeClick}
           onNodeDoubleClick={onNodeDoubleClick}
+          nodeTypes={nodeTypes}
+
           edges={edges}
           onEdgesChange={onEdgesChange}
-          onPaneClick={onPaneClick}
           onConnect={onConnect}
-          nodeTypes={nodeTypes}
+          onPaneClick={onPaneClick}
+
           fitView
           proOptions={proOptions}
-          onSave={onSave}
-          onRestore={onRestore}
+          onInit={setRfInstance}
           >
           <Background />
           <Controls />
