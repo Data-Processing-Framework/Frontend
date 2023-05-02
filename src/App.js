@@ -7,6 +7,7 @@ import { Info }  from './elements/info';
 import React, {useState, useEffect} from 'react';
 import  Alert from './elements/alerts';
 import ReactFlow, { useReactFlow } from 'reactflow';
+import { joinGraph } from './functionalities/joinGraph';
 const flowKey = 'DPF-Graph';
 
 function App() {
@@ -56,6 +57,16 @@ function App() {
   const sysStart = () => {
     setEditMode(false)
     //TODO put graph
+    const getGraph = async () => {
+      const flow = JSON.parse(localStorage.getItem(flowKey));
+      if (flow) {
+        console.log(flow.nodes)
+        console.log(flow.edges)
+        return joinGraph(flow.nodes, flow.edges) //TODO
+      }
+    };
+    const graph = getGraph();
+    //do the put
     
     //fetch /system/start
     fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/system/status')
@@ -102,7 +113,6 @@ function App() {
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
 
       <ReactFlowProvider 
-
         setSelectedNode={setInfo} 
         selectedNode={infoNode} 
         closeInfo={closeInfo} 
