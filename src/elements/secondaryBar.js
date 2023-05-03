@@ -38,13 +38,15 @@ export function EditBar(props) {
                 <button onClick={props.onRestore}>
                     <img className='button' src={undo} alt='undo' />
                 </button>
+                {/*
                 <button>
                     <img className='button' src={redo} alt='redo' />
-                </button>
+    </button> */}
                 <hr className='separators'/>
+                {/*
                 <button>
                     <img className='button' src={move} alt='move' />
-                </button>
+                </button>*/}
                 <button>
                     <img className='button' src={addNodes} alt='addNodes' />
                 </button>
@@ -52,15 +54,19 @@ export function EditBar(props) {
                     <img className='button' src={addArestes} alt='addArestes' />
                 </button>
                 <hr className='separators'/>
+                {/*
                 <button>
                     <img className='button' src={viewLogs} alt='viewLogs' />
                 </button>
+                */}
                 <button onClick={props.onSave}>
                     <img className='button' src={save} alt='save' />
                 </button>
+                {/*
                 <button>
                     <img className='button' src={submit} alt='submit' />
                 </button>
+                */}
             </div>
     )
 }

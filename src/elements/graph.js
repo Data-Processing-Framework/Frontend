@@ -34,6 +34,37 @@ const Graph = (props) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
+
+  const [editMode, setEditMode] = useState(props.mode)
+  const [isSelectable, setIsSelectable] = useState(props.mode);
+  const [isDraggable, setIsDraggable] = useState(props.mode);
+  const [isConnectable, setIsConnectable] = useState(props.mode);
+  const [panOnDrag, setpanOnDrag] = useState(true);;
+  const [captureElementClick, setCaptureElementClick] = useState(props.mode);
+  const [deleteKeyCode, setDeleteKeyCode] = useState('Backspace')
+
+  useEffect(() => {
+    if (props.mode) {
+      // Settings when edit is true
+      setEditMode(true)
+      setIsSelectable(true)
+      setIsDraggable(true)
+      setIsConnectable(true)
+      setCaptureElementClick(true)
+      setDeleteKeyCode('Backspace')
+      console.log('EditMode is true');
+      
+    } else {
+      // Settings when edit is false
+      setEditMode(false)
+      setIsSelectable(false)
+      setIsDraggable(false)
+      setIsConnectable(false)
+      setCaptureElementClick(false)
+      setDeleteKeyCode(null)
+      console.log('EditMode is false');
+    }
+  }, [props.mode]);
  
   //Get graph from the API 
   useEffect(() => {
@@ -55,7 +86,12 @@ const Graph = (props) => {
   );
 
   const onNodeClick = (event, node) => {
-    props.setSelectedNode(node)
+    if (editMode) {
+      props.setSelectedNode(node)
+    } else {
+      props.setSelectedNode(node)
+      props.openInfo()
+    }
   }
 
   const onNodeDoubleClick = (event, node) => {
@@ -66,7 +102,7 @@ const Graph = (props) => {
   
   const onNodesDelete = (node) => {
     props.closeInfo()
-  }
+    }
 
   const onPaneClick = (event) => {
     props.closeInfo()
@@ -100,18 +136,18 @@ const Graph = (props) => {
     
   }, [rfInstance]);
 
+  const restoreFlow = async () => {
+    const flow = JSON.parse(localStorage.getItem(flowKey));
+
+    if (flow) {
+      const { x = 0, y = 0, zoom = 1 } = flow.viewport;
+      setNodes(flow.nodes || []);
+      setEdges(flow.edges || []);
+      setViewport({ x, y, zoom });
+    }
+  };
+
   const onRestore = useCallback(() => {
-    const restoreFlow = async () => {
-      const flow = JSON.parse(localStorage.getItem(flowKey));
-
-      if (flow) {
-        const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-        setNodes(flow.nodes || []);
-        setEdges(flow.edges || []);
-        setViewport({ x, y, zoom });
-      }
-    };
-
     restoreFlow();
   }, [setNodes, setViewport]);
 
@@ -147,7 +183,16 @@ const Graph = (props) => {
           edges={edges}
           onEdgesChange={onEdgesChange}
           onConnect={onConnect}
+          
           onPaneClick={onPaneClick}
+          elementsSelectable={isSelectable}
+          nodesFocusable={isSelectable}
+          edgesFocusable={isSelectable}
+          nodesDraggable={isDraggable}
+          nodesConnectable={isConnectable}
+          panOnDrag={panOnDrag}
+          captureElementClick={captureElementClick}
+          deleteKeyCode={deleteKeyCode}
 
           fitView
           proOptions={proOptions}
