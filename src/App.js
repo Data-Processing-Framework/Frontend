@@ -62,11 +62,22 @@ function App() {
       if (flow) {
         console.log(flow.nodes)
         console.log(flow.edges)
-        return joinGraph(flow.nodes, flow.edges) //TODO
+        return joinGraph(flow.nodes, flow.edges) 
       }
     };
     const graph = getGraph();
+    console.log(graph)
     //do the put
+    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: graph
+    })
+    .then(response => {console.log(response); return response.json()})
+    
+
     
     //fetch /system/start
     fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/system/status')
