@@ -20,7 +20,7 @@ export function SecondaryBar(props) {
     
     return (
         <div className={`${mode ? 'editBar' : 'activeBar'}`}>
-            {mode && <EditBar isOpen={props.isOpen} onSave={props.onSave} onRestore={props.onRestore}/>}
+            {mode && <EditBar isOpen={props.isOpen} onSave={props.onSave} onRestore={props.onRestore} togglenewnode={props.togglenewnode}/>}
         </div>
     );
 }
@@ -32,6 +32,8 @@ export function EditBar(props) {
     useEffect(() => {
         setInfoOpen(props.isOpen);
     }, [props.isOpen]);
+
+
 
     return(
         <div className={`editButtons ${infoOpen ? 'open' : 'closed'} `} >
@@ -45,8 +47,8 @@ export function EditBar(props) {
                 <button>
                     <img className='button' src={move} alt='move' />
                 </button>
-                <button>
-                    <img className='button' src={addNodes} alt='addNodes' />
+                <button onClick={props.togglenewnode}>
+                    <img className='button' src={addNodes} alt='addNodes'/>
                 </button>
                 <button>
                     <img className='button' src={addArestes} alt='addArestes' />

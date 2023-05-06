@@ -3,6 +3,7 @@ import './elements/css/colorPalette.sass'
 import { NavBar } from './elements/navBar';
 import ReactFlowProvider from "./elements/graph"
 import {ShowModuls} from "./elements/showModuls"
+import {ShowNewNode} from "./elements/showNewNode"
 import { Info }  from './elements/info';
 import React, {useState, useEffect} from 'react';
 import  Alert from './elements/alerts';
@@ -12,6 +13,7 @@ const flowKey = 'DPF-Graph';
 function App() {
   //---------------------------Visibiility Handlers-----------------------------------------
   //Handles if info section is visible or not
+
   const [infoNode, setInfoNode] = useState(null);
   const [infoOpen, setInfoOpen] = useState(false);
   const closeInfo = () => {
@@ -33,6 +35,13 @@ function App() {
   const handleToggleModuls = () => {
     setModulsIsOpen(!modulsIsOpen)
   }
+
+  const [NewNode, setNewNode] = useState(false);
+  const handleToggleNewNode = () => {
+    setNewNode(!NewNode)
+    console.log(NewNode)
+  }
+
 
   //---------------------------MODES-----------------------------------------
   //Handles if app is in edit mode or not
@@ -82,6 +91,8 @@ function App() {
         json.errors.forEach(printError)
       });
   }
+  //--------------------------------NODES-----------------------------------
+  const [nodes, setNodes] = useState([]);
 
   //---------------------------------APP-----------------------------------
   return (
@@ -93,6 +104,7 @@ function App() {
         editMode = {editMode}
 
         toggleModuls={handleToggleModuls}
+        toggleNewNode={handleToggleNewNode}
       />
       <Info 
         open={infoOpen} 
@@ -100,15 +112,17 @@ function App() {
         closeInfo={closeInfo}
       />
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
-
+      {NewNode && <ShowNewNode togglenewnode={handleToggleNewNode} nodes={nodes} setNodes={setNodes}/>}
       <ReactFlowProvider 
-
+        togglenewnode={handleToggleNewNode}
         setSelectedNode={setInfo} 
         selectedNode={infoNode} 
         closeInfo={closeInfo} 
         openInfo={openInfo}
         isOpen={infoOpen} 
         mode={editMode}
+        nodes={nodes}
+        setNodes={setNodes}
       />
       <Alert/>
     </div>

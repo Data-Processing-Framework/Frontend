@@ -30,7 +30,6 @@ const proOptions = { hideAttribution: true };
 const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : OutputNode };
 
 function Graph(props) {
-  const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
@@ -45,14 +44,14 @@ function Graph(props) {
       const { initialNodes, initialEdges } = divideGraph(json);
       console.log(initialNodes)
       console.log(initialEdges)
-      setNodes(initialNodes)
+      props.setNodes(initialNodes)
       setEdges(initialEdges)
     });
   }, []); 
 
   const onNodesChange = useCallback(
-    (changes) => setNodes((nds) => applyNodeChanges(changes, nds)),
-    [setNodes]
+    (changes) => props.setNodes((nds) => applyNodeChanges(changes, nds)),
+    [props.setNodes]
   );
   const onEdgesChange = useCallback(
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
@@ -83,7 +82,7 @@ function Graph(props) {
   }
 
   useEffect(() => {
-    setNodes((nds) =>
+    props.setNodes((nds) =>
       nds.map((node) => {{node !== null ? node.position.x : null}
         if (node.id === (props.selectedNode !== null ? props.selectedNode.id : null)) {
           //Change border when node is selected
@@ -100,7 +99,7 @@ function Graph(props) {
         return node;
       })
     );
-  }, [props.selectedNode, setNodes]);
+  }, [props.selectedNode, props.setNodes]);
 
   const onSave = useCallback(() => {
     if (props.rfInstance) {
@@ -116,14 +115,14 @@ function Graph(props) {
 
       if (flow) {
         const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-        setNodes(flow.nodes || []);
+        props.setNodes(flow.nodes || []);
         setEdges(flow.edges || []);
         setViewport({ x, y, zoom });
       }
       console.log("Restore Done")
     };
     restoreFlow();
-  }, [setNodes, setViewport]);
+  }, [props.setNodes, setViewport]);
   return (
     
     <div className='editSection'>
@@ -132,10 +131,11 @@ function Graph(props) {
         mode={props.mode}
         onSave={onSave}
         onRestore={onRestore}
+        togglenewnode={props.togglenewnode}
       />
       <div className='graph'>
         <ReactFlow 
-          nodes={nodes}
+          nodes={props.nodes}
           onNodesChange={onNodesChange}
           onNodesDelete={onNodesDelete}
           onNodeClick={onNodeClick}
