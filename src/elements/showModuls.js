@@ -5,7 +5,6 @@ import { makeModules } from "../functionalities/makeModules";
 export function ShowModuls({toggleModuls}) {
   const [modules, setModules] = useState([{id:123},{id:321}]);
   const [addModule, setAddModule] = useState(false);
-
   
   const [name, setName] = useState();
   const [type, setType] = useState();
@@ -20,21 +19,21 @@ export function ShowModuls({toggleModuls}) {
 
 
 
-  useEffect(() => {
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/module')
-    //.then(response=> console.log(response))
-    .then((response) => {console.log(response);return response.json()})
-    .then((json) => {
-      console.log(json);
-      const {initialModules} = makeModules(json);
-      console.log(initialModules)
-      setModules(initialModules)
-    });
+      useEffect(() => {
+        fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/module')
+        //.then(response=> console.log(response))
+        .then((response) => {console.log(response);return response.json()})
+        .then((json) => {
+          console.log(json);
+          const {initialModules} = makeModules(json);
+          console.log(initialModules)
+          setModules(initialModules)
+        });
 
 
-    
-  // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  }, []);
+        
+      // empty dependency array means this effect will only run once (like componentDidMount in classes)
+      }, []);
 
   
   const handleSubmit = (event) => {
