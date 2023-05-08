@@ -5,6 +5,8 @@ import ReactFlow, {
   addEdge,
   useNodesState,
   useEdgesState,
+  applyEdgeChanges,
+  applyNodeChanges,
   useReactFlow,
   ReactFlowProvider 
 
@@ -31,8 +33,8 @@ const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : Output
 
 
 const Graph = (props) => {
-  const [nodes, setNodes, onNodesChange] = useNodesState([]);
-  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const [nodes, setNodes] = useState([]);
+  const [edges, setEdges] = useState([]);
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
 
@@ -81,6 +83,7 @@ const Graph = (props) => {
       setEdges(initialEdges)
     });
   }, []); 
+  
   const onNodesChange = useCallback(
     (changes) => props.setNodes((nds) => applyNodeChanges(changes, nds)),
     [props.setNodes]
@@ -88,7 +91,8 @@ const Graph = (props) => {
   const onEdgesChange = useCallback(
     (changes) => setEdges((eds) => applyEdgeChanges(changes, eds)),
     [setEdges]
-  );
+  )
+  
 
   const onConnect = useCallback(
     (connection) => setEdges((eds) => addEdge(connection, eds)),
@@ -199,7 +203,7 @@ const Graph = (props) => {
           elementsSelectable={isSelectable}
           nodesFocusable={isSelectable}
           edgesFocusable={isSelectable}
-          nodesDraggable={isDraggable}
+          //nodesDraggable={isDraggable}
           nodesConnectable={isConnectable}
           panOnDrag={panOnDrag}
           captureElementClick={captureElementClick}

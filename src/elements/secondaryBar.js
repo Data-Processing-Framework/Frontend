@@ -48,7 +48,7 @@ export function EditBar(props) {
                 {/*
                 <button>
                     <img className='button' src={move} alt='move' />
-                </button>
+</button>*/}
                 <button onClick={props.togglenewnode}>
                     <img className='button' src={addNodes} alt='addNodes'/>
                 </button>
