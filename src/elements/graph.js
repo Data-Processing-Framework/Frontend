@@ -3,8 +3,6 @@ import ReactFlow, {
   Background, 
   Controls,
   addEdge,
-  useNodesState,
-  useEdgesState,
   applyEdgeChanges,
   applyNodeChanges,
   useReactFlow,
@@ -33,7 +31,7 @@ const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : Output
 
 
 const Graph = (props) => {
-  const [nodes, setNodes] = useState([]);
+  //const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
@@ -155,7 +153,7 @@ const Graph = (props) => {
 
     if (flow) {
       const { x = 0, y = 0, zoom = 1 } = flow.viewport;
-      setNodes(flow.nodes || []);
+      props.setNodes(flow.nodes || []);
       setEdges(flow.edges || []);
       setViewport({ x, y, zoom });
     }
@@ -163,7 +161,7 @@ const Graph = (props) => {
 
   const onRestore = useCallback(() => {
     restoreFlow();
-  }, [setNodes, setViewport]);
+  }, [props.setNodes, setViewport]);
 
   const onAdd = useCallback(() => {
     const newNode = {
@@ -175,7 +173,7 @@ const Graph = (props) => {
       },
     };
     setNodes((nds) => nds.concat(newNode));
-  }, [setNodes]);
+  }, [props.setNodes]);
   return (
     
     <div className='editSection'>
@@ -203,7 +201,7 @@ const Graph = (props) => {
           elementsSelectable={isSelectable}
           nodesFocusable={isSelectable}
           edgesFocusable={isSelectable}
-          //nodesDraggable={isDraggable}
+          nodesDraggable={isDraggable}
           nodesConnectable={isConnectable}
           panOnDrag={panOnDrag}
           captureElementClick={captureElementClick}
