@@ -7,7 +7,8 @@ import {ShowNewNode} from "./elements/showNewNode"
 import { Info }  from './elements/info';
 import React, {useState, useEffect} from 'react';
 import  Alert from './elements/alerts';
-
+import ReactFlow, { useReactFlow } from 'reactflow';
+import { joinGraph } from './functionalities/joinGraph';
 const flowKey = 'DPF-Graph';
 
 function App() {
@@ -59,13 +60,34 @@ function App() {
         console.log("On Stop sysyem/status: ");
         console.log(json);
         //TODO create alert toast if error
-        json.errors.forEach(printError)
       });
 
   }
   const sysStart = () => {
     setEditMode(false)
     //TODO put graph
+    const getGraph = async () => {
+      const flow = JSON.parse(localStorage.getItem(flowKey));
+      if (flow) {
+        console.log(flow.nodes)
+        console.log(flow.edges)
+        return joinGraph(flow.nodes, flow.edges) 
+      }
+    };
+    const graph = getGraph();
+    console.log(graph)
+    //do the put
+    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph', {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: graph
+    })
+    .then(response => {console.log(response); return response.json()})
+    
+
+    
     //fetch /system/start
     fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/system/status')
       .then((response) => {console.log(response); return response.json()})
@@ -73,7 +95,7 @@ function App() {
         console.log("On Start sysyem/status: ");
         console.log(json);
         //TODO create alert toast if error
-        json.errors.forEach(printError)
+        //json.errors.forEach(printError)
       });
   }
 
@@ -88,7 +110,7 @@ function App() {
         console.log("On Restart sysyem/status: ");
         console.log(json);
         //TODO create alert toast if error
-        json.errors.forEach(printError)
+        //json.errors.forEach(printError)
       });
   }
   //--------------------------------NODES-----------------------------------

@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import { responsivePropType } from "react-bootstrap/esm/createUtilityClasses";
-
 export function divideGraph(initialGraph) {
   const nodes = [];
   const edges = [];
