@@ -15,7 +15,7 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
   }
 
   useEffect(() => {
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/module')
+    fetch(conectionPath + '/module')
     //.then(response=> console.log(response))
     .then((response) => {console.log(response);return response.json()})
     .then((json) => {

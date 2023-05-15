@@ -1,6 +1,7 @@
 import './css/showModuls.sass'
 import React,{useEffect, useState} from 'react';
 import { makeModules } from "../functionalities/makeModules";
+import {conectionPath} from '../API/globals'
 
 export function ShowModuls({toggleModuls}) {
   const [modules, setModules] = useState([{id:123},{id:321}]);
@@ -20,7 +21,7 @@ export function ShowModuls({toggleModuls}) {
 
 
       useEffect(() => {
-        fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/module')
+        fetch(conectionPath + '/module')
         //.then(response=> console.log(response))
         .then((response) => {console.log(response);return response.json()})
         .then((json) => {
@@ -46,7 +47,7 @@ export function ShowModuls({toggleModuls}) {
       type_out: type_out,
       code: code,
     }
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/module', {  // Enter your IP address here
+    fetch(conectionPath + '/module', {  // Enter your IP address here
       method: 'POST', 
       mode: 'cors', 
       body: JSON.stringify(data) // body data type must match "Content-Type" header

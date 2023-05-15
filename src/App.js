@@ -10,6 +10,7 @@ import  Alert from './elements/alerts';
 import ReactFlow, { useReactFlow } from 'reactflow';
 import { joinGraph } from './functionalities/joinGraph';
 const flowKey = 'DPF-Graph';
+import {conectionPath} from './API/globals'
 
 function App() {
   //---------------------------Visibiility Handlers-----------------------------------------
@@ -51,10 +52,10 @@ function App() {
   const sysStop = () => {
     setEditMode(true)
     //fetch /system/stop
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/system/stop')
+    fetch(conectionPath + '/system/stop')
       .then((response) => {console.log(response)})
     //get /sytem/status
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/system/status')
+    fetch(conectionPath + '/system/status')
       .then((response) => {console.log(response); return response.json()})
       .then((json) => {
         console.log("On Stop sysyem/status: ");
@@ -77,7 +78,7 @@ function App() {
     const graph = getGraph();
     console.log(graph)
     //do the put
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph', {
+    fetch(conectionPath + '/graph', {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
@@ -89,7 +90,7 @@ function App() {
 
     
     //fetch /system/start
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/system/status')
+    fetch(conectionPath + '/system/status')
       .then((response) => {console.log(response); return response.json()})
       .then((json) => {
         console.log("On Start sysyem/status: ");
@@ -101,10 +102,10 @@ function App() {
 
   const sysRestart = () => {
     //fetch /system/restart
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/system/restart')
+    fetch(conectionPath + '/system/restart')
       .then((response) => {console.log(response)})
     //get /sytem/status
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/system/status')
+    fetch(conectionPath + '/system/status')
       .then((response) => {console.log(response); return response.json()})
       .then((json) => {
         console.log("On Restart sysyem/status: ");

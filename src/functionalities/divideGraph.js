@@ -1,3 +1,5 @@
+import {conectionPath} from '../API/globals'
+
 export function divideGraph(initialGraph) {
   const nodes = [];
   const edges = [];
@@ -49,7 +51,7 @@ function getNodeId(nodeName, graph) {
 function getEdgeType(node) {
   const module = node.module
   var allModules = []
-  fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/module')
+  fetch(conectionPath +'/module')
   .then((response) => {console.log(response);return response.json()})
   .then((json) => {
     console.log(json);

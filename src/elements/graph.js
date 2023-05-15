@@ -18,6 +18,7 @@ import './css/graf/text-updater-node.sass';
 import ProcessingNode from './grafNodes/processingNode.js';
 import './css/graf/proba.sass';
 import OutputNode from './grafNodes/outputNode.js';
+import {conectionPath} from '../API/globals'
 //import './css/graf/proba.sass';
 
 
@@ -67,9 +68,9 @@ const Graph = (props) => {
     }
   }, [props.mode]);
  
-  //Get graph from the API 
+  //Get graph
   useEffect(() => {
-    fetch('https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1/graph')
+    fetch(conectionPath +'/graph')
     //.then(response=> console.log(response))
     .then((response) => {console.log(response);return response.json()})
     .then((json) => {
