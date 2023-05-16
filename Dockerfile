@@ -17,6 +17,7 @@ RUN npm install -g serve
 
 # add app
 COPY . ./
+RUN echo "export const conectionPath = '$CORE_ADDRESS';" > ./src/API/globals.js
 RUN npm run build
 
 # start app
