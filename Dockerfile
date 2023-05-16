@@ -3,6 +3,7 @@ FROM node:slim
 
 # set working directory
 WORKDIR /app
+ARG CORE_ADDRESS
 
 EXPOSE 3000
 
