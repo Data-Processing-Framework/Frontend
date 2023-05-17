@@ -6,23 +6,21 @@ import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
   useReactFlow,
-  ReactFlowProvider 
-
+  ReactFlowProvider,
+  useNodes
  } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './css/graf/graph.sass'
+import './css/graf/nodes.sass'
 import { SecondaryBar } from "./secondaryBar";
 
 import InputNode from './grafNodes/inputNode.js';
-import './css/graf/text-updater-node.sass';
 import ProcessingNode from './grafNodes/processingNode.js';
-import './css/graf/proba.sass';
 import OutputNode from './grafNodes/outputNode.js';
 import {conectionPath} from '../API/globals'
-//import './css/graf/proba.sass';
-
 
 import { divideGraph } from "../functionalities/divideGraph";
+import { getModules } from "../functionalities/getModules";
 
 const flowKey = 'DPF-Graph';
 
@@ -30,13 +28,11 @@ const proOptions = { hideAttribution: true };
 
 const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : OutputNode };
 
-
 const Graph = (props) => {
   //const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
-
   const [editMode, setEditMode] = useState(props.mode)
   const [isSelectable, setIsSelectable] = useState(props.mode);
   const [isDraggable, setIsDraggable] = useState(props.mode);
@@ -82,6 +78,16 @@ const Graph = (props) => {
       setEdges(initialEdges)
     });
   }, []); 
+
+  const isValidConnection = (connection) => canConnect(connection); //change 
+
+  const canConnect = (conn)=>{
+    //get the source node module and check if the target Id has that type 
+    const sourceNode = rfInstance.getNode(conn.source)
+    const targetNode = rfInstance.getNode(conn.target)
+
+    //fer una vegada el get modules perk sino ns com collons ferho
+  }
   
   const onNodesChange = useCallback(
     (changes) => props.setNodes((nds) => applyNodeChanges(changes, nds)),
@@ -94,8 +100,12 @@ const Graph = (props) => {
   
 
   const onConnect = useCallback(
-    (connection) => setEdges((eds) => addEdge(connection, eds)),
-    [setEdges]
+    (connection) => { 
+      if (canConnect(nds,connection)) {
+      setEdges((eds) => addEdge(connection, eds)),
+      [setEdges]
+    }
+  }
   );
 
   const onNodeClick = (event, node) => {
@@ -207,6 +217,8 @@ const Graph = (props) => {
           panOnDrag={panOnDrag}
           captureElementClick={captureElementClick}
           deleteKeyCode={deleteKeyCode}
+
+          isValidConnection={isValidConnection}
 
           fitView
           proOptions={proOptions}

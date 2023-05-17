@@ -1,6 +1,7 @@
 import './css/showModuls.sass'
 import React,{useEffect, useState} from 'react';
 import { makeModules } from "../functionalities/makeModules";
+import { conectionPath } from '../API/globals';
 
 export function ShowNewNode({togglenewnode, nodes, setNodes}) {
     const [modules, setModules] = useState([{id:123},{id:321}]);
