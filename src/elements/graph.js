@@ -20,7 +20,7 @@ import OutputNode from './grafNodes/outputNode.js';
 import {conectionPath} from '../API/globals'
 
 import { divideGraph } from "../functionalities/divideGraph";
-import { getModules } from "../functionalities/getModules";
+import { makeModules } from "../functionalities/makeModules";
 
 const flowKey = 'DPF-Graph';
 
@@ -28,11 +28,16 @@ const proOptions = { hideAttribution: true };
 
 const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : OutputNode };
 
+
+
 const Graph = (props) => {
   //const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
+  
+  const [modules, setModules] = useState() 
+  const [newConectionType, setNewConectionType] = useState(null)
   const [editMode, setEditMode] = useState(props.mode)
   const [isSelectable, setIsSelectable] = useState(props.mode);
   const [isDraggable, setIsDraggable] = useState(props.mode);
@@ -40,6 +45,23 @@ const Graph = (props) => {
   const [panOnDrag, setpanOnDrag] = useState(true);;
   const [captureElementClick, setCaptureElementClick] = useState(props.mode);
   const [deleteKeyCode, setDeleteKeyCode] = useState('Backspace')
+
+  useEffect(() => {
+    const interval = setInterval( () => {
+      fetch(conectionPath + '/module')
+        .then((response) => {console.log(response);return response.json()})
+        .then((json) => {
+          const {initialModules} = makeModules(json);
+          console.log(initialModules)
+          setModules(initialModules)
+        });
+    }, 10000);
+    // Clean up the interval when the component unmounts
+    return () => {
+      clearInterval(interval);
+    };
+  }, [modules, setModules]); // Empty dependency array ensures the effect runs only once
+
 
   useEffect(() => {
     if (props.mode) {
@@ -81,12 +103,37 @@ const Graph = (props) => {
 
   const isValidConnection = (connection) => canConnect(connection); //change 
 
-  const canConnect = (conn)=>{
+  const canConnect = (conn)=> {
     //get the source node module and check if the target Id has that type 
-    const sourceNode = rfInstance.getNode(conn.source)
-    const targetNode = rfInstance.getNode(conn.target)
+    const sourceScript = rfInstance.getNode(conn.source).data.scriptName
+    const targetScript = rfInstance.getNode(conn.target).data.scriptName
+    //console.log(sourceScript)
+    //console.log(targetScript)
+    let indexSource = null 
+    let indexTarget = null 
+    //console.log(modules)
+    for (let i = 0; i < modules.length; i++){
+      if (modules[i].name == sourceScript ) {
+        indexSource = i 
+        break;
+      }
+    }
 
-    //fer una vegada el get modules perk sino ns com collons ferho
+    for (let i = 0; i < modules.length; i++){
+      if (modules[i].name == targetScript ) {
+        indexTarget = i 
+        break;
+      }
+    }
+
+    //console.log(modules[indexTarget].type_in)
+    //console.log(modules[indexSource].type_out)
+    if (modules[indexTarget].type_in.includes(modules[indexSource].type_out[0])||modules[indexTarget].type_in == 'any') {
+      setNewConectionType(modules[indexSource].type_out[0]) //this is to use it when creating the new edge and set the type
+      return true
+    }else{
+      return false
+    }
   }
   
   const onNodesChange = useCallback(
@@ -98,15 +145,7 @@ const Graph = (props) => {
     [setEdges]
   )
   
-
-  const onConnect = useCallback(
-    (connection) => { 
-      if (canConnect(nds,connection)) {
-      setEdges((eds) => addEdge(connection, eds)),
-      [setEdges]
-    }
-  }
-  );
+  const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), []);
 
   const onNodeClick = (event, node) => {
     if (editMode) {
