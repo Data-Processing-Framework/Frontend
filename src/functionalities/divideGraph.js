@@ -1,8 +1,17 @@
 import {conectionPath} from '../API/globals'
+import { MarkerType } from 'reactflow';
 
 export function divideGraph(initialGraph) {
   const nodes = [];
   const edges = [];
+
+  const modules = fetch(conectionPath +'/module')
+  .then((response) => {console.log(response);return response.json()})
+  .then((json) => {
+    console.log(json);
+    modules = json
+  });
+
   //setup nodes
   for (let i = 0; i < initialGraph.length; i++) {
     var newNode = {};
@@ -30,6 +39,12 @@ export function divideGraph(initialGraph) {
         newEdges.animated = false
         //newEdges.data.type = ''
         //newEdges.data.type = getEdgeType(initialGraph[i])
+        //newEdges.label = `${getEdgeType(initialGraph[sourceNodeId], modules)}` TODO we need to change graph structure to show edge type
+        newEdges.markerEnd = {
+          type: MarkerType.ArrowClosed,
+          width: 10,
+          height: 10,
+        }       
         edges.push(newEdges);
     }
   }
@@ -48,20 +63,17 @@ function getNodeId(nodeName, graph) {
         return graph.indexOf(graph[i]);
 }
 
-function getEdgeType(node) {
+function getEdgeType(node, modules) {
   const module = node.module
-  var allModules = []
-  fetch(conectionPath +'/module')
-  .then((response) => {console.log(response);return response.json()})
-  .then((json) => {
-    console.log(json);
-    allModules  = json
-  });
-  const type = ""
-  for (var i = 0; i < allModules.length; i++) {
-    if(module === allModules[i].name){
-      type = allModules[i].type
+  //console.log(module)
+  var type
+  for (var i = 0; i < modules.length; i++) {
+    console.log(modules[i].name)
+    console.log(module)
+    if(module == modules[i].name){
+      type = modules[i].type
     }
   }
+  //console.log(type)
   return type 
 }
