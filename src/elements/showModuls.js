@@ -94,7 +94,7 @@ export function ShowModuls({toggleModuls}) {
                 </div>
                 </p>)
                 }
-                < button type="button" class="btn-close m-3 position-relative top-0 end-100%" aria-label="Close" onClick={toggleAddModule} ></button>
+                < button type="button" class="m-3 position-relative top-0 end-100%" aria-label="Close" onClick={toggleAddModule} >Add new module</button>
               </>
             }
             {addModule &&
@@ -102,11 +102,11 @@ export function ShowModuls({toggleModuls}) {
                 <form id="newModule" name ="newModule" onSubmit={e => { handleSubmit(e) }}>
                   
                   <p>
-                    Nom:
+                    Name:
                     <input name="name" type="text" id="moduleNameIn" value={name} onChange={e => setName( e.target.value)} ></input>
                   </p>
                   <p>
-                    Tipus:
+                    Type:
                     <input name="type" type="text" id="moduleTypeIn" value={type} onChange={e => setType( e.target.value)} ></input>
                   </p>
                   <p>
@@ -114,21 +114,21 @@ export function ShowModuls({toggleModuls}) {
                     <input name="description" type="text" id="moduleDescriptionIn" value={description} onChange={e => setDescription( e.target.value)} ></input>   
                   </p>
                   <p>
-                    Dades d'entrada:
+                  Input data:
                     <input name="type_in" type="text" id="moduleInIn" value={type_in} onChange={e => setType_in( e.target.value)} ></input> 
                   </p>
                   <p>
-                  Dades de sortida:
+                  Output data:
                   <input name="type_out" type="text" id="moduleOutIn" value={type_out} onChange={e => setType_Out( e.target.value)} ></input>
                   </p>
                   <p>
-                  Fitxer de codi:
+                  Code file:
                   <input name="code" type="file" id="moduleFileIn" value={code} onChange={e => setCode( e.target.value)} ></input>  
                   </p>
-                  <button type="submit" id="moduleSubmit"  >submit</button>
+                  <button type="submit" id="moduleSubmit">Submit</button>
 
                 </form>
-                < button type="button" class="btn-close m-3 position-relative top-0 end-100%" aria-label="Close" onClick={toggleAddModule} ></button>
+                < button type="button" class="m-3 position-relative top-0 end-100%" aria-label="Close" onClick={toggleAddModule} >Cancel</button>
               </>
             }
             

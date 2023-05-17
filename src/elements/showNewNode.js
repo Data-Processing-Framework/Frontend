@@ -88,15 +88,15 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
       <div className='showModuls' >
         <div className="showModuls-card" >
             <button type="button" class="btn-close m-3 position-relative top-0 start-0" aria-label="Close" onClick={togglenewnode   } ></button>
-            <h2>Moduls</h2>
+            <h2>New node</h2>
                 <>
                     <form id="newModule" name ="newModule" onSubmit={e => { handleSubmit(e) }}>
                     <p>
-                        Nom:
+                        Name:
                         <input name="name" type="text" id="moduleNameIn" value={name} onChange={e => setName( e.target.value)} required ></input>
                     </p>
                     <p> 
-                        Tipus:
+                        Type:
                         <select name= "type" value={type} onChange={e => setType( e.target.value)} required >
                             <option value="null"> </option>
                             <option value="Input"> Input </option>
@@ -105,7 +105,7 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
                         </select>
                     </p>
                     <p>
-                        Mòduls:
+                        Module:
                         <select id="Modols" value={module} onChange={e => setModule( e.target.value)} required >
                         {modules.map(modul => {
                                 if (modul.type === type) {
@@ -125,11 +125,11 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
                 <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10">
                     <div class="toast-header">
                         <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#ff0f0f"></rect></svg>
-                        <strong class="me-auto">Un node amb aquest nom ja existeix.</strong>
+                        <strong class="me-auto">A node with the same name alredy exist.</strong>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" ></button>
                     </div>
                     <div class="toast-body">
-                        Siusplau trii un altre
+                        Please chose another.
                     </div>
                 </div>
             </div>
