@@ -41,10 +41,10 @@ export function ShowModuls({toggleModuls}) {
     // prevents the submit button from refreshing the page
     event.preventDefault();
     const formData = new FormData();
-    formData.append('name', event.target.name.value);
-    formData.append('description', event.target.description.value);
-    formData.append('type_in', event.target.type_in.value);
-    formData.append('type_out', event.target.type_out.value);
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('type_in', type_in);
+    formData.append('type_out', type_out);
     formData.append('code', event.target.code.files[0]);
 
     fetch(conectionPath + '/module', {  // Enter your IP address here
