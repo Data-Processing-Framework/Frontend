@@ -50,7 +50,7 @@ export function ShowModuls({toggleModuls}) {
     fetch(conectionPath + '/module', {  // Enter your IP address here
       method: 'POST', 
       mode: 'cors', 
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
+      body: data // body data type must match "Content-Type" header
 
     })
 
