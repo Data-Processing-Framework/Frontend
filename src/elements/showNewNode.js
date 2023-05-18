@@ -1,4 +1,5 @@
-import './css/showModuls.sass'
+import './css/showNewNode.sass'
+
 import React,{useEffect, useState} from 'react';
 import { makeModules } from "../functionalities/makeModules";
 
@@ -86,9 +87,17 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
     return (
       
       <div className='showModuls' >
-        <div className="showModuls-card" >
-            <button type="button" class="btn-close m-3 position-relative top-0 start-0" aria-label="Close" onClick={togglenewnode   } ></button>
+        <div className="showNewNode-card">
+            <div id="closeCrossNewNode">
+                <button type="button" class="btn btn-light sm-3 position-relative top-50 start-0" aria-label="Close" onClick={togglenewnode} ><button type="button" class="btn-close" aria-label="Close" onClick={togglenewnode} ></button></button>
+            </div >
             <h2>New node</h2>
+            <div id="newNode">
+                <div>
+                    <p>
+                        
+                    </p>
+                </div>
                 <>
                     <form id="newModule" name ="newModule" onSubmit={e => { handleSubmit(e) }}>
                     <p>
@@ -118,24 +127,31 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
                     <button type="submit" id="moduleSubmit"  >submit</button>
                     </form>                
                 </>
-        </div>
-        {repe &&
-        <>
-            <div class="z-3 p-2 position-absolute">
-                <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10">
-                    <div class="toast-header">
-                        <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#ff0f0f"></rect></svg>
-                        <strong class="me-auto">A node with the same name alredy exist.</strong>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" ></button>
-                    </div>
-                    <div class="toast-body">
-                        Please chose another.
-                    </div>
+                <div>
+                    <p>
+                        
+                    </p>
                 </div>
             </div>
-        </>}
+            {repe &&
+            <>
+                <div class="z-3 p-2 position-absolute">
+                    <div class="toast fade show" role="alert" aria-live="assertive" aria-atomic="true" data-bs-delay="10">
+                        <div class="toast-header">
+                            <svg class="bd-placeholder-img rounded me-2" width="20" height="20" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" preserveAspectRatio="xMidYMid slice" focusable="false"><rect width="100%" height="100%" fill="#ff0f0f"></rect></svg>
+                            <strong class="me-auto">A node with the same name alredy exist.</strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close" ></button>
+                        </div>
+                        <div class="toast-body">
+                            Please chose another.
+                        </div>
+                    </div>
+                </div>
+            </>}
+            
+        </div>
+        
       </div>
-      
     );
 }
 
