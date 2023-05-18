@@ -45,7 +45,7 @@ export function ShowModuls({toggleModuls}) {
     formData.append('description', description);
     formData.append('type_in', type_in);
     formData.append('type_out', type_out);
-    formData.append('code', code);
+    formData.append('code', event.target.code.files[0]);
 
     fetch(conectionPath + '/module', {  // Enter your IP address here
       method: 'POST', 
