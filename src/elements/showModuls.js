@@ -40,21 +40,20 @@ export function ShowModuls({toggleModuls}) {
   const handleSubmit = (event) => {
     // prevents the submit button from refreshing the page
     event.preventDefault();
-    const data = { 
-      name: name, 
-      description: description, 
-      type_in: type_in ,
-      type_out: type_out,
-      code: code,
-    }
+    const formData = new FormData();
+    formData.append('name', name);
+    formData.append('description', description);
+    formData.append('type_in', type_in);
+    formData.append('type_out', type_out);
+    formData.append('code', code);
+
     fetch(conectionPath + '/module', {  // Enter your IP address here
       method: 'POST', 
       mode: 'cors', 
-      body: data // body data type must match "Content-Type" header
+      body: formData // body data type must match "Content-Type" header
 
     })
-
-
+    
     console.log(data)
     setName("")
     setType("")
