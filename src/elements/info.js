@@ -30,7 +30,7 @@ export function InfoCards ({closeInfo, node, open}) {
                     <div className={`colorBackground ${node !== null ? node.type : null}BG`}></div>
                     <div className='text'>
                         <div className='Header'>
-                            <h1>Node: {node !== null ? node.data.name : null}</h1>
+                            <h1>{node !== null ? node.data.name : null}</h1>
                             <span className={`badge ${node !== null ? node.type : null}`}>{node !== null ? node.type : null}</span>
                         </div>
                         <div className='infoBody'>

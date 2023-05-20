@@ -36,7 +36,7 @@ const Graph = (props) => {
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
   
-  const [modules, setModules] = useState() 
+  const [modules, setModules] = useState(props.modules) 
   const [newConectionType, setNewConectionType] = useState(null)
   const [editMode, setEditMode] = useState(props.mode)
   const [isSelectable, setIsSelectable] = useState(props.mode);
@@ -45,23 +45,6 @@ const Graph = (props) => {
   const [panOnDrag, setpanOnDrag] = useState(true);;
   const [captureElementClick, setCaptureElementClick] = useState(props.mode);
   const [deleteKeyCode, setDeleteKeyCode] = useState('Backspace')
-
-  useEffect(() => {
-    const interval = setInterval( () => {
-      fetch(conectionPath + '/module')
-        .then((response) => {console.log(response);return response.json()})
-        .then((json) => {
-          const {initialModules} = makeModules(json);
-          console.log(initialModules)
-          setModules(initialModules)
-        });
-    }, 10000);
-    // Clean up the interval when the component unmounts
-    return () => {
-      clearInterval(interval);
-    };
-  }, [modules, setModules]); // Empty dependency array ensures the effect runs only once
-
 
   useEffect(() => {
     if (props.mode) {
@@ -107,7 +90,7 @@ const Graph = (props) => {
     //get the source node module and check if the target Id has that type 
     const sourceScript = rfInstance.getNode(conn.source).data.scriptName
     const targetScript = rfInstance.getNode(conn.target).data.scriptName
-    //console.log(sourceScript)
+    console.log(sourceScript)
     //console.log(targetScript)
     let indexSource = null 
     let indexTarget = null 

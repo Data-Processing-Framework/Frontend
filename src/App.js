@@ -10,9 +10,25 @@ import  Alert from './elements/alerts';
 import ReactFlow, { useReactFlow } from 'reactflow';
 import { joinGraph } from './functionalities/joinGraph';
 const flowKey = 'DPF-Graph';
+
 import {conectionPath} from './API/globals'
+import { makeModules } from "./functionalities/makeModules";
+
 
 function App() {
+  function initialModules () {
+    fetch(conectionPath + '/module')
+    .then((response) => {console.log(response);return response.json()})
+    .then((json) => {
+      const {initialModules} = makeModules(json);
+      console.log(initialModules)
+      return (initialModules)
+    });
+  }
+  //console.log(initialModules)
+  const [modules, setModules] = useState(initialModules()) 
+
+  console.log(modules)
   //---------------------------Visibiility Handlers-----------------------------------------
   //Handles if info section is visible or not
 
@@ -146,6 +162,7 @@ function App() {
         mode={editMode}
         nodes={nodes}
         setNodes={setNodes}
+        moduls={modules}
       />
       <Alert/>
     </div>

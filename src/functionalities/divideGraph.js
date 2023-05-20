@@ -4,13 +4,13 @@ import { MarkerType } from 'reactflow';
 export function divideGraph(initialGraph) {
   const nodes = [];
   const edges = [];
-
+ /*
   const modules = fetch(conectionPath +'/module')
   .then((response) => {console.log(response);return response.json()})
   .then((json) => {
     console.log(json);
     modules = json
-  });
+  });*/
 
   //setup nodes
   for (let i = 0; i < initialGraph.length; i++) {
