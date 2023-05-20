@@ -16,17 +16,25 @@ import { makeModules } from "./functionalities/makeModules";
 
 
 function App() {
-  function initialModules () {
+  
+  //console.log(initialModules)
+  const [modules, setModules] = useState([])
+
+  useEffect(() => {
     fetch(conectionPath + '/module')
+    //.then(response=> console.log(response))
     .then((response) => {console.log(response);return response.json()})
     .then((json) => {
+      console.log(json);
       const {initialModules} = makeModules(json);
       console.log(initialModules)
-      return (initialModules)
+      setModules(initialModules)
     });
-  }
-  //console.log(initialModules)
-  const [modules, setModules] = useState(initialModules()) 
+  // empty dependency array means this effect will only run once (like componentDidMount in classes)
+  }, []);
+
+
+   
 
   console.log(modules)
   //---------------------------Visibiility Handlers-----------------------------------------
@@ -150,7 +158,7 @@ function App() {
         node={infoNode} 
         closeInfo={closeInfo}
       />
-      {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls}/>}
+      {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls} modulesS={modules}/>}
       {NewNode && <ShowNewNode togglenewnode={handleToggleNewNode} nodes={nodes} setNodes={setNodes}/>}
       <ReactFlowProvider 
         togglenewnode={handleToggleNewNode}
@@ -162,7 +170,7 @@ function App() {
         mode={editMode}
         nodes={nodes}
         setNodes={setNodes}
-        moduls={modules}
+        modules={modules}
       />
       <Alert/>
     </div>

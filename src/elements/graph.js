@@ -91,28 +91,32 @@ const Graph = (props) => {
     const sourceScript = rfInstance.getNode(conn.source).data.scriptName
     const targetScript = rfInstance.getNode(conn.target).data.scriptName
     console.log(sourceScript)
+    console.log(props.modules.length)
     //console.log(targetScript)
     let indexSource = null 
     let indexTarget = null 
     //console.log(modules)
-    for (let i = 0; i < modules.length; i++){
-      if (modules[i].name == sourceScript ) {
+    console.log(props.modules.length)
+    for (let i = 0; i < props.modules.length; i++){
+      console.log(props.modules[i])
+      if (props.modules[i].name == sourceScript ) {
+        
         indexSource = i 
         break;
       }
     }
 
-    for (let i = 0; i < modules.length; i++){
-      if (modules[i].name == targetScript ) {
+    for (let i = 0; i < props.modules.length; i++){
+      if (props.modules[i].name == targetScript ) {
         indexTarget = i 
         break;
       }
     }
-
+    console.log(indexTarget)
     //console.log(modules[indexTarget].type_in)
     //console.log(modules[indexSource].type_out)
-    if (modules[indexTarget].type_in.includes(modules[indexSource].type_out[0])||modules[indexTarget].type_in == 'any') {
-      setNewConectionType(modules[indexSource].type_out[0]) //this is to use it when creating the new edge and set the type
+    if (props.modules[indexTarget].type_in.includes(props.modules[indexSource].type_out[0])||props.modules[indexTarget].type_in == 'any') {
+      setNewConectionType(props.modules[indexSource].type_out[0]) //this is to use it when creating the new edge and set the type
       return true
     }else{
       return false
