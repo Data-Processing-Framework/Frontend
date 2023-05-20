@@ -42,6 +42,7 @@ export function ShowModuls({toggleModuls}) {
     event.preventDefault();
     const formData = new FormData();
     formData.append('name', name);
+    formData.append('type', type);
     formData.append('description', description);
     formData.append('type_in', type_in);
     formData.append('type_out', type_out);
