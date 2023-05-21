@@ -39,7 +39,7 @@ export function LogCard ({closeInfo, node, open}){
             .then((res)=>{
                 return res.text();
               }).then((text)=>{
-               console.log(text)
+               //console.log(text)
                setInfo(text)
               })
     }

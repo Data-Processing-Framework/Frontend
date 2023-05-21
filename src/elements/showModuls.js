@@ -51,11 +51,6 @@ export function ShowModulsBody({modules}) {
   return(
     <div class="card mx-auto" id="inCardSM">
       <div class="accordion mx-auto" id="accordionExample" >
-        <div>
-          <p>
-              
-          </p>
-        </div>
         {!addModule &&
           <>
             {modules.map(module => <p key={module.id}>

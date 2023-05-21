@@ -1,5 +1,6 @@
 import {conectionPath} from '../API/globals'
 import { MarkerType } from 'reactflow';
+import { markerEndStyle } from './markerEndStyle';
 
 export function divideGraph(initialGraph) {
   const nodes = [];
@@ -40,11 +41,7 @@ export function divideGraph(initialGraph) {
         //newEdges.data.type = ''
         //newEdges.data.type = getEdgeType(initialGraph[i])
         //newEdges.label = `${getEdgeType(initialGraph[sourceNodeId], modules)}` TODO we need to change graph structure to show edge type
-        newEdges.markerEnd = {
-          type: MarkerType.ArrowClosed,
-          width: 10,
-          height: 10,
-        }       
+        newEdges.markerEnd = markerEndStyle  
         edges.push(newEdges);
     }
   }

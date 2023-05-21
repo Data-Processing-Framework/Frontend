@@ -7,7 +7,6 @@ import ReactFlow, {
   applyNodeChanges,
   useReactFlow,
   ReactFlowProvider,
-  useNodes
  } from 'reactflow';
 import 'reactflow/dist/style.css';
 import './css/graf/graph.sass'
@@ -20,8 +19,7 @@ import OutputNode from './grafNodes/outputNode.js';
 import {conectionPath} from '../API/globals'
 
 import { divideGraph } from "../functionalities/divideGraph";
-import { makeModules } from "../functionalities/makeModules";
-
+import { markerEndStyle } from "../functionalities/markerEndStyle";
 const flowKey = 'DPF-Graph';
 
 const proOptions = { hideAttribution: true };
@@ -86,19 +84,14 @@ const Graph = (props) => {
 
   const isValidConnection = (connection) => canConnect(connection); //change 
 
-  const canConnect = (conn)=> {
+  const canConnect = (conn) => {
     //get the source node module and check if the target Id has that type 
     const sourceScript = rfInstance.getNode(conn.source).data.scriptName
     const targetScript = rfInstance.getNode(conn.target).data.scriptName
-    console.log(sourceScript)
-    console.log(props.modules.length)
-    //console.log(targetScript)
     let indexSource = null 
     let indexTarget = null 
     //console.log(modules)
-    console.log(props.modules.length)
     for (let i = 0; i < props.modules.length; i++){
-      console.log(props.modules[i])
       if (props.modules[i].name == sourceScript ) {
         
         indexSource = i 
@@ -112,9 +105,10 @@ const Graph = (props) => {
         break;
       }
     }
-    console.log(indexTarget)
-    //console.log(modules[indexTarget].type_in)
-    //console.log(modules[indexSource].type_out)
+    console.log(conn.source)
+    console.log(conn.target)
+    console.log(props.modules[indexSource].type_out)
+    console.log(props.modules[indexTarget].type_in)
     if (props.modules[indexTarget].type_in.includes(props.modules[indexSource].type_out[0])||props.modules[indexTarget].type_in == 'any') {
       setNewConectionType(props.modules[indexSource].type_out[0]) //this is to use it when creating the new edge and set the type
       return true
@@ -132,8 +126,10 @@ const Graph = (props) => {
     [setEdges]
   )
   
-  const onConnect = useCallback((params) => setEdges((els) => addEdge(params, els)), []);
-
+  const onConnect = useCallback((params) => {
+    params.markerEnd = markerEndStyle
+    setEdges((els) => addEdge(params, els));
+  }, []);
   const onNodeClick = (event, node) => {
     if (editMode) {
       props.setSelectedNode(node)

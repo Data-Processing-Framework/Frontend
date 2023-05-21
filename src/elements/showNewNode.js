@@ -89,45 +89,39 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
       
       <div className='showModuls' >
         <div className="showNewNode-card">
-            <div id="closeCrossNewNode">
-                <button type="button" class="btn btn-light sm-3 position-relative top-50 start-0" aria-label="Close" onClick={togglenewnode} ><button type="button" class="btn-close" aria-label="Close" onClick={togglenewnode} ></button></button>
-            </div >
-            <h2>New node</h2>
+            <h2 className='newNodeHeading'>New node</h2>
             <div id="newNode">
                 <div>
-                    <p>
-                        
-                    </p>
-                </div>
-                <>
                     <form id="newModule" name ="newModule" onSubmit={e => { handleSubmit(e) }}>
-                    <p>
-                        Name:
-                        <input name="name" type="text" id="moduleNameIn" value={name} onChange={e => setName( e.target.value)} required ></input>
-                    </p>
-                    <p> 
+                    <div>
+                        <input name="name" type="text" class="form--input" placeholder="Type node name here..." value={name} onChange={e => setName( e.target.value)} required ></input>
+                    </div>
+                    <div> 
                         Type:
-                        <select name= "type" value={type} onChange={e => setType( e.target.value)} required >
+                        <select class='form--dropdown' name= "type" value={type} onChange={e => setType( e.target.value)} required >
                             <option value="null"> </option>
                             <option value="Input"> Input </option>
                             <option value="Transform"> Transform </option>
                             <option value="Output"> Output </option>     
                         </select>
-                    </p>
-                    <p>
+                    </div>
+                    <div>
                         Module:
-                        <select id="Modols" value={module} onChange={e => setModule( e.target.value)} required >
+                        <select class='form--dropdown' id="Modols" value={module} onChange={e => setModule( e.target.value)} required >
                         {modules.map(modul => {
                                 if (modul.type === type) {
                                     return <option value={modul.name}> {modul.name} </option>
                                 }
                             })}   
                         </select>  
-                        
-                    </p>
-                    <button type="submit" id="moduleSubmit"  >submit</button>
+                    
+                    </div>
+                    <div className='form--buttons'>
+                        <button type="button" class="form--close" aria-label="Close" onClick={togglenewnode} >Close</button>
+                        <button type="submit" id="moduleSubmit" class="form--submit" aria-label="submit" >Submit</button>
+                    </div>
                     </form>                
-                </>
+                </div>
                 <div>
                     <p>
                         

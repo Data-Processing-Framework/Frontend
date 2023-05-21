@@ -32,11 +32,6 @@ function App() {
     });
   // empty dependency array means this effect will only run once (like componentDidMount in classes)
   }, []);
-
-
-   
-
-  console.log(modules)
   //---------------------------Visibiility Handlers-----------------------------------------
   //Handles if info section is visible or not
 
