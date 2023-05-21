@@ -36,7 +36,7 @@ const Graph = (props) => {
   const [rfInstance, setRfInstance] = useState(null);
   const { setViewport } = useReactFlow();
   
-  const [modules, setModules] = useState() 
+  const [modules, setModules] = useState(props.modules) 
   const [newConectionType, setNewConectionType] = useState(null)
   const [editMode, setEditMode] = useState(props.mode)
   const [isSelectable, setIsSelectable] = useState(props.mode);
@@ -45,23 +45,6 @@ const Graph = (props) => {
   const [panOnDrag, setpanOnDrag] = useState(true);;
   const [captureElementClick, setCaptureElementClick] = useState(props.mode);
   const [deleteKeyCode, setDeleteKeyCode] = useState('Backspace')
-
-  useEffect(() => {
-    const interval = setInterval( () => {
-      fetch(conectionPath + '/module')
-        .then((response) => {console.log(response);return response.json()})
-        .then((json) => {
-          const {initialModules} = makeModules(json);
-          console.log(initialModules)
-          setModules(initialModules)
-        });
-    }, 10000);
-    // Clean up the interval when the component unmounts
-    return () => {
-      clearInterval(interval);
-    };
-  }, [modules, setModules]); // Empty dependency array ensures the effect runs only once
-
 
   useEffect(() => {
     if (props.mode) {
@@ -107,29 +90,33 @@ const Graph = (props) => {
     //get the source node module and check if the target Id has that type 
     const sourceScript = rfInstance.getNode(conn.source).data.scriptName
     const targetScript = rfInstance.getNode(conn.target).data.scriptName
-    //console.log(sourceScript)
+    console.log(sourceScript)
+    console.log(props.modules.length)
     //console.log(targetScript)
     let indexSource = null 
     let indexTarget = null 
     //console.log(modules)
-    for (let i = 0; i < modules.length; i++){
-      if (modules[i].name == sourceScript ) {
+    console.log(props.modules.length)
+    for (let i = 0; i < props.modules.length; i++){
+      console.log(props.modules[i])
+      if (props.modules[i].name == sourceScript ) {
+        
         indexSource = i 
         break;
       }
     }
 
-    for (let i = 0; i < modules.length; i++){
-      if (modules[i].name == targetScript ) {
+    for (let i = 0; i < props.modules.length; i++){
+      if (props.modules[i].name == targetScript ) {
         indexTarget = i 
         break;
       }
     }
-
+    console.log(indexTarget)
     //console.log(modules[indexTarget].type_in)
     //console.log(modules[indexSource].type_out)
-    if (modules[indexTarget].type_in.includes(modules[indexSource].type_out[0])||modules[indexTarget].type_in == 'any') {
-      setNewConectionType(modules[indexSource].type_out[0]) //this is to use it when creating the new edge and set the type
+    if (props.modules[indexTarget].type_in.includes(props.modules[indexSource].type_out[0])||props.modules[indexTarget].type_in == 'any') {
+      setNewConectionType(props.modules[indexSource].type_out[0]) //this is to use it when creating the new edge and set the type
       return true
     }else{
       return false
