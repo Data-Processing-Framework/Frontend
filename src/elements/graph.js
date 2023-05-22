@@ -116,7 +116,8 @@ export const Graph = forwardRef((props, ref) => {
 			props.modules[indexTarget].type_in.includes(
 				props.modules[indexSource].type_out[0]
 			) ||
-			props.modules[indexTarget].type_in == "any"
+			props.modules[indexTarget].type_in == "any" ||
+      props.modules[indexSource].type_out[0] == "any"
 		) {
 			setNewConectionType(props.modules[indexSource].type_out[0]); //this is to use it when creating the new edge and set the type
 			return true;
