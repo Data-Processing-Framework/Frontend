@@ -16,8 +16,7 @@ import { makeModules } from "./functionalities/makeModules";
 
 
 function App() {
-
-
+  
   //---------------------------Visibiility Handlers-----------------------------------------
   //Handles if info section is visible or not
 
@@ -168,7 +167,7 @@ function App() {
         node={infoNode} 
         closeInfo={closeInfo}
       />
-      {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls} modulesS={modules}/>}
+      {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls} modules={modules} setModules={setModules}/>}
       {NewNode && <ShowNewNode togglenewnode={handleToggleNewNode} nodes={nodes} setNodes={setNodes}/>}
       <ReactFlowProvider>
         <Graph
