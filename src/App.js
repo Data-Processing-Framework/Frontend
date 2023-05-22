@@ -32,6 +32,7 @@ function App() {
     });
   // empty dependency array means this effect will only run once (like componentDidMount in classes)
   }, []);
+
   //---------------------------Visibiility Handlers-----------------------------------------
   //Handles if info section is visible or not
 
@@ -149,6 +150,22 @@ function App() {
   //--------------------------------NODES-----------------------------------
   const [nodes, setNodes] = useState([]);
 
+  //-------------------------------MODULES----------------------------------
+  const [modules, setModules] = useState([])
+
+  useEffect(() => {
+    fetch(conectionPath + '/module')
+    //.then(response=> console.log(response))
+    .then((response) => {console.log(response);return response.json()})
+    .then((json) => {
+      console.log(json);
+      const {initialModules} = makeModules(json);
+      console.log(initialModules)
+      setModules(initialModules)
+    });
+  // empty dependency array means this effect will only run once (like componentDidMount in classes)
+  }, []);
+
   //---------------------------------APP-----------------------------------
   return (
     <div className='App'>
@@ -183,7 +200,7 @@ function App() {
           ref={graphRef}
         />
       </ReactFlowProvider>
-      
+
       <Alert/>
     </div>
   );

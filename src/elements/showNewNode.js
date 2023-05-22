@@ -4,8 +4,8 @@ import React,{useEffect, useState} from 'react';
 import { makeModules } from "../functionalities/makeModules";
 import { conectionPath } from '../API/globals';
 
-export function ShowNewNode({togglenewnode, nodes, setNodes}) {
-    const [modules, setModules] = useState([{id:123},{id:321}]);
+export function ShowNewNode({togglenewnode, nodes, setNodes, modules}) {
+
 
   const [name, setName] = useState();
   const [module, setModule] = useState();
@@ -16,20 +16,7 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
     console.log("HOOOOO")
   }
 
-  useEffect(() => {
-    fetch(conectionPath + '/module')
-    //.then(response=> console.log(response))
-    .then((response) => {console.log(response);return response.json()})
-    .then((json) => {
-      console.log(json);
-      const {initialModules} = makeModules(json);
-      console.log(initialModules)
-      setModules(initialModules)
-    });
-
     
-  // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  }, []);
 
   
   const handleSubmit = (event) => {
