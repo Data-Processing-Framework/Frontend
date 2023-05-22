@@ -6,8 +6,8 @@ import ReactFlow, {
   applyEdgeChanges,
   applyNodeChanges,
   useReactFlow,
-  ReactFlowProvider,
  } from 'reactflow';
+import React,{ useRef, forwardRef  } from "react";
 import 'reactflow/dist/style.css';
 import './css/graf/graph.sass'
 import './css/graf/nodes.sass'
@@ -26,9 +26,7 @@ const proOptions = { hideAttribution: true };
 
 const nodeTypes = { Input: InputNode, Transform : ProcessingNode,Output : OutputNode };
 
-
-
-const Graph = (props) => {
+export const Graph = forwardRef((props, ref) => {
   //const [nodes, setNodes] = useState([]);
   const [edges, setEdges] = useState([]);
   const [rfInstance, setRfInstance] = useState(null);
@@ -172,14 +170,17 @@ const Graph = (props) => {
       })
     );
   }, [props.selectedNode, props.setNodes]);
-
+  
   const onSave = useCallback(() => {
     if (rfInstance) {
       const flow = rfInstance.toObject();
       localStorage.setItem(flowKey, JSON.stringify(flow));
     }
-    
   }, [rfInstance]);
+
+  React.useImperativeHandle(ref, () => ({
+    onSave,
+  }));
 
   const restoreFlow = async () => {
     const flow = JSON.parse(localStorage.getItem(flowKey));
@@ -252,13 +253,4 @@ const Graph = (props) => {
       </div>
     </div>
   );
-}
-
-export default (props) => (
-    <ReactFlowProvider>
-      <Graph
-        {...props}
-      />
-    </ReactFlowProvider>
-);
-
+});

@@ -1,13 +1,13 @@
 import './App.sass';
 import './elements/css/colorPalette.sass'
 import { NavBar } from './elements/navBar';
-import ReactFlowProvider from "./elements/graph"
+import { Graph } from "./elements/graph"
 import {ShowModuls} from "./elements/showModuls"
 import {ShowNewNode} from "./elements/showNewNode"
 import { Info }  from './elements/info';
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import  Alert from './elements/alerts';
-import ReactFlow, { useReactFlow } from 'reactflow';
+import ReactFlow, { ReactFlowProvider } from 'reactflow';
 import { joinGraph } from './functionalities/joinGraph';
 const flowKey = 'DPF-Graph';
 
@@ -83,8 +83,21 @@ function App() {
       });
 
   }
+
+  // Reference to child component
+  const graphRef = useRef(null);
+
+  // Parent component's function
+  const saveGraph = () => {
+    // Call the child component's function
+    console.log('Saving graph from App.js...');
+    graphRef.current.onSave();
+    
+  };
+
   const sysStart = () => {
     setEditMode(false)
+    saveGraph()
     //TODO put graph
     const getGraph = async () => {
       const flow = JSON.parse(localStorage.getItem(flowKey));
@@ -155,18 +168,22 @@ function App() {
       />
       {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls} modulesS={modules}/>}
       {NewNode && <ShowNewNode togglenewnode={handleToggleNewNode} nodes={nodes} setNodes={setNodes}/>}
-      <ReactFlowProvider 
-        togglenewnode={handleToggleNewNode}
-        setSelectedNode={setInfo} 
-        selectedNode={infoNode} 
-        closeInfo={closeInfo} 
-        openInfo={openInfo}
-        isOpen={infoOpen} 
-        mode={editMode}
-        nodes={nodes}
-        setNodes={setNodes}
-        modules={modules}
-      />
+      <ReactFlowProvider>
+        <Graph
+          togglenewnode={handleToggleNewNode}
+          setSelectedNode={setInfo} 
+          selectedNode={infoNode} 
+          closeInfo={closeInfo} 
+          openInfo={openInfo}
+          isOpen={infoOpen} 
+          mode={editMode}
+          nodes={nodes}
+          setNodes={setNodes}
+          modules={modules}
+          ref={graphRef}
+        />
+      </ReactFlowProvider>
+      
       <Alert/>
     </div>
   );

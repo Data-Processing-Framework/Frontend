@@ -83,8 +83,6 @@ export function ShowNewNode({togglenewnode, nodes, setNodes}) {
     
   };
 
-
-
     return (
       
       <div className='showModuls' >
