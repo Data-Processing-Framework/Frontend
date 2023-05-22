@@ -94,7 +94,7 @@ export const Graph = forwardRef((props, ref) => {
 		const targetScript = rfInstance.getNode(conn.target).data.scriptName;
 		let indexSource = null;
 		let indexTarget = null;
-		//console.log(modules)
+		console.log(props.modules);
 		for (let i = 0; i < props.modules.length; i++) {
 			if (props.modules[i].name == sourceScript) {
 				indexSource = i;
