@@ -254,3 +254,5 @@ export const Graph = forwardRef((props, ref) => {
     </div>
   );
 });
+
+export default Graph
