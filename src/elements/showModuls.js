@@ -29,12 +29,13 @@ export function ShowModulsBody({modules, setModules}) {
       type_out: type_out,
       code: code,
     }/*
+
     fetch(conectionPath + '/module', {  // Enter your IP address here
       method: 'POST', 
       mode: 'cors', 
-      body: JSON.stringify(data) // body data type must match "Content-Type" header
-
+      body: formData // body data type must match "Content-Type" header
     })*/
+
     console.log("modules")
     console.log(modules)
     const modulesArray = [];
@@ -54,6 +55,7 @@ export function ShowModulsBody({modules, setModules}) {
     setModules(modulesArray)
     console.log(modules)
     
+
     setName("")
     setType("")
     setDescription("")
@@ -67,11 +69,6 @@ export function ShowModulsBody({modules, setModules}) {
   return(
     <div class="card mx-auto" id="inCardSM">
       <div class="accordion mx-auto" id="accordionExample" >
-        <div>
-          <p>
-              
-          </p>
-        </div>
         {!addModule &&
           <>
             {modules.map(module => <p key={module.id}>
