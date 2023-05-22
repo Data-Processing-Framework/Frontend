@@ -17,26 +17,11 @@ import { makeModules } from "./functionalities/makeModules";
 
 function App() {
   
-  //console.log(initialModules)
-  const [modules, setModules] = useState([])
-
-  useEffect(() => {
-    fetch(conectionPath + '/module')
-    //.then(response=> console.log(response))
-    .then((response) => {console.log(response);return response.json()})
-    .then((json) => {
-      console.log(json);
-      const {initialModules} = makeModules(json);
-      console.log(initialModules)
-      setModules(initialModules)
-    });
-  // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  }, []);
+  
 
 
    
 
-  console.log(modules)
   //---------------------------Visibiility Handlers-----------------------------------------
   //Handles if info section is visible or not
 
@@ -141,6 +126,22 @@ function App() {
   //--------------------------------NODES-----------------------------------
   const [nodes, setNodes] = useState([]);
 
+  //-------------------------------MODULES----------------------------------
+  const [modules, setModules] = useState([])
+
+  useEffect(() => {
+    fetch(conectionPath + '/module')
+    //.then(response=> console.log(response))
+    .then((response) => {console.log(response);return response.json()})
+    .then((json) => {
+      console.log(json);
+      const {initialModules} = makeModules(json);
+      console.log(initialModules)
+      setModules(initialModules)
+    });
+  // empty dependency array means this effect will only run once (like componentDidMount in classes)
+  }, []);
+
   //---------------------------------APP-----------------------------------
   return (
     <div className='App'>
@@ -158,8 +159,8 @@ function App() {
         node={infoNode} 
         closeInfo={closeInfo}
       />
-      {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls} modulesS={modules}/>}
-      {NewNode && <ShowNewNode togglenewnode={handleToggleNewNode} nodes={nodes} setNodes={setNodes}/>}
+      {modulsIsOpen && <ShowModuls toggleModuls={handleToggleModuls} modules={modules} setModules={setModules}/>}
+      {NewNode && <ShowNewNode togglenewnode={handleToggleNewNode} nodes={nodes} setNodes={setNodes} modules={modules}/>}
       <ReactFlowProvider 
         togglenewnode={handleToggleNewNode}
         setSelectedNode={setInfo} 

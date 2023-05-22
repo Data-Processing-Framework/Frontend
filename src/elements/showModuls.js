@@ -1,10 +1,9 @@
 import './css/showModuls.sass'
 import React,{useEffect, useState} from 'react';
-import { makeModules } from "../functionalities/makeModules";
 import {conectionPath} from '../API/globals'
 
 
-export function ShowModulsBody({modules}) {
+export function ShowModulsBody({modules, setModules}) {
 
   const [addModule, setAddModule] = useState(false);
   
@@ -24,20 +23,37 @@ export function ShowModulsBody({modules}) {
     event.preventDefault();
     const data = { 
       name: name, 
+      type: type,
       description: description, 
       type_in: type_in ,
       type_out: type_out,
       code: code,
-    }
+    }/*
     fetch(conectionPath + '/module', {  // Enter your IP address here
       method: 'POST', 
       mode: 'cors', 
       body: JSON.stringify(data) // body data type must match "Content-Type" header
 
-    })
-
-
-    console.log(data)
+    })*/
+    console.log("modules")
+    console.log(modules)
+    const modulesArray = [];
+    
+    modules.map(module => {
+      modulesArray.push(module);
+    });
+    var newModule = {}
+    newModule.id = modules.length
+    newModule.name = data.name
+    newModule.type = data.type
+    newModule.description = data.description
+    newModule.type_in = data.type_in
+    newModule.type_out = data.type_out
+    newModule.code = data.code
+    modulesArray.push(newModule);
+    setModules(modulesArray)
+    console.log(modules)
+    
     setName("")
     setType("")
     setDescription("")
@@ -126,31 +142,10 @@ export function ShowModulsBody({modules}) {
 
 
 
-export function ShowModuls({toggleModuls},{modulesS}) {
-  const [modules, setModules] = useState([]);
-
+export function ShowModuls({toggleModuls,modules,setModules}) {
   
 
 
-
-  useEffect(() => {
-    fetch(conectionPath + '/module')
-    //.then(response=> console.log(response))
-    .then((response) => {console.log(response);return response.json()})
-    .then((json) => {
-      console.log(json);
-      const {initialModules} = makeModules(json);
-      console.log(initialModules)
-      setModules(initialModules)
-    });
-
-
-    
-  // empty dependency array means this effect will only run once (like componentDidMount in classes)
-  }, []);
-
-
-  
 
 
 
@@ -162,7 +157,8 @@ export function ShowModuls({toggleModuls},{modulesS}) {
             <button type="button" class="btn btn-light m-3 position-relative top-0 start-0" aria-label="Close" onClick={toggleModuls} ><button type="button" class="btn-close" aria-label="Close" onClick={toggleModuls} ></button></button>
           </div>
           <h2 >Moduls</h2>
-          <ShowModulsBody modules={modulesS}/>
+          
+          <ShowModulsBody modules={modules} setModules={setModules}/>
         <div>
           <p>
 
