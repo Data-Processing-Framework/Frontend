@@ -2,11 +2,11 @@ import "./css/showModuls.sass";
 import React, { useEffect, useState } from "react";
 import { conectionPath } from "../API/globals";
 
-export function ShowModulsBody({ modules, setModules }) {
+export function ShowModulsBody({ modules, setModules, toggleModuls }) {
 	const [addModule, setAddModule] = useState(false);
 
 	const [name, setName] = useState();
-	const [type, setType] = useState();
+	const [type, setType] = useState("Input");
 	const [description, setDescription] = useState();
 	const [type_in, setType_in] = useState();
 	const [type_out, setType_Out] = useState();
@@ -15,6 +15,25 @@ export function ShowModulsBody({ modules, setModules }) {
 	function toggleAddModule() {
 		setAddModule(!addModule);
 	}
+
+	const deleteModule = (name) => {
+		fetch(conectionPath + "/module/" + name, {
+			method: "DELETE",
+			mode: "cors",
+		}).then((response) => {
+			if (response.status === 200) {
+				modules.map((module) => {
+					if (module.name === name) {
+						const index = modules.indexOf(module);
+						let modules_cp = modules;
+						modules_cp.splice(index, 1);
+						setModules(modules_cp);
+						toggleModuls();
+					}
+				});
+			}
+		});
+	};
 
 	const handleSubmit = (event) => {
 		// prevents the submit button from refreshing the page
@@ -49,7 +68,6 @@ export function ShowModulsBody({ modules, setModules }) {
 			modulesArray.push(module);
 		});
 		var newModule = {};
-		newModule.id = modules.length;
 		newModule.name = data.name;
 		newModule.type = data.type;
 		newModule.description = data.description;
@@ -74,29 +92,29 @@ export function ShowModulsBody({ modules, setModules }) {
 				{!addModule && (
 					<>
 						{modules.map((module) => (
-							<p key={module.id}>
+							<p key={module.name}>
 								<div class="accordion-item">
 									<h2
 										class="accordion-header"
-										id={"headling" + module.id}
+										id={"headling" + module.name}
 									>
 										<button
 											class="accordion-button collapsed"
 											type="button"
 											data-bs-toggle="collapse"
 											data-bs-target={
-												"#collapse" + module.id
+												"#collapse" + module.name
 											}
 											aria-expanded="false"
 											aria-controls={
-												"headling" + module.id
+												"headling" + module.name
 											}
 										>
 											{module.name}
 										</button>
 									</h2>
 									<div
-										id={"collapse" + module.id}
+										id={"collapse" + module.name}
 										class="accordion-button collapsed collapse"
 										aria-labelledby="headingOne"
 										data-bs-parent="#accordionExample"
@@ -114,6 +132,20 @@ export function ShowModulsBody({ modules, setModules }) {
 											<li>
 												Output dataType:{" "}
 												{module.type_out}
+											</li>
+											<li>
+												<button
+													type="button"
+													class="m-3 position-relative top-0 end-100%"
+													aria-label="Close"
+													onClick={() =>
+														deleteModule(
+															module.name
+														)
+													}
+												>
+													Delete module
+												</button>
 											</li>
 										</div>
 									</div>
@@ -231,7 +263,7 @@ export function ShowModulsBody({ modules, setModules }) {
 	);
 }
 
-export function ShowModuls({ toggleModuls, modules, setModules }) {
+export function ShowModuls({ toggleModuls, modules, setModules, setNewNode }) {
 	return (
 		<div className="showModuls">
 			<div className="showModuls-card">
@@ -252,7 +284,11 @@ export function ShowModuls({ toggleModuls, modules, setModules }) {
 				</div>
 				<h2>Moduls</h2>
 
-				<ShowModulsBody modules={modules} setModules={setModules} />
+				<ShowModulsBody
+					modules={modules}
+					setModules={setModules}
+					toggleModuls={toggleModuls}
+				/>
 				<div>
 					<p></p>
 				</div>
