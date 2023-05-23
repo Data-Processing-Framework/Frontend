@@ -14,14 +14,14 @@ export function Info (props) {
         <>
             <section className={` info-section offcanvas offcanvas-end ${props.open ? 'show' : ''}`} id="offcanvasInfo">
                 
-                {props.open && <InfoCards closeInfo={props.closeInfo} node={props.node} open={props.open}/>}
+                {props.open && <InfoCards closeInfo={props.closeInfo} node={props.node} open={props.open} editMode={props.editMode}/>}
             </section> 
             
         </>
     ); 
 }
 
-export function InfoCards ({closeInfo, node, open}) {
+export function InfoCards ({closeInfo, node, open, editMode}) {
 
     return(
             <div className='info-start' id="infoNode">
@@ -40,9 +40,14 @@ export function InfoCards ({closeInfo, node, open}) {
                         </div>
                     </div>
                 </div>
-                <div className="logs-card">
-                    <LogCard closeInfo={closeInfo} node={node} open={open} />
-                </div>
+                
+                
+                {!editMode && (
+                    <div className="logs-card">
+                        {console.log(editMode)}
+                        <LogCard closeInfo={closeInfo} node={node} open={open} />
+                    </div>
+                )}            
             </div>
     )
 }

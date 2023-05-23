@@ -159,6 +159,7 @@ function App() {
 		// empty dependency array means this effect will only run once (like componentDidMount in classes)
 	}, []);
 
+
 	//---------------------------------APP-----------------------------------
 	return (
 		<div className="App">
@@ -170,7 +171,7 @@ function App() {
 				toggleModuls={handleToggleModuls}
 				toggleNewNode={handleToggleNewNode}
 			/>
-			<Info open={infoOpen} node={infoNode} closeInfo={closeInfo} />
+			<Info open={infoOpen} node={infoNode} closeInfo={closeInfo} editMode={editMode} />
 			{modulsIsOpen && (
 				<ShowModuls
 					toggleModuls={handleToggleModuls}

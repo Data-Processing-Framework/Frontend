@@ -38,14 +38,23 @@ export function LogCard({ closeInfo, node, open }) {
 			});
 	}
 
+	const handleSubmit = (event) => {
+		event.preventDefault();
+		// Perform your function here
+	  };
+	
+
 	return (
 		<div className="info-start">
 			<div className="Header">
 				<h4>Logs</h4>
 			</div>
 			<div>
-				<input type="time" id="appt" name="appt" onChange={((e) => setStartDate(e.target.value))} />
-				<input type="time" id="appt" name="appt" onChange={(e) => setEndDate(e.target.value)} />
+				<form id="timeForm" onSubmit={handleSubmit}>
+					<input type="time" id="timeInit" name="timeInit" onSubmit={((e) => setStartDate(e.target.value))} required />
+					<input type="time" id="timeEnd" name="timeEnd" onSubmit={(e) => setEndDate(e.target.value)} required />
+					<button type="submit"> Set Data</button>
+				</form>
 			</div>
 			<div className="info-card" id="logsScreen">
 				<div className="text">
