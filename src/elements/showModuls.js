@@ -2,7 +2,51 @@ import "./css/showModuls.sass";
 import React, { useEffect, useState } from "react";
 import { conectionPath } from "../API/globals";
 
-export function ShowModulsBody({ modules, setModules, toggleModuls }) {
+
+function ConfirmationCard({setConfirmDel, delName, deleteModule}){
+	return(
+		<div class="d-flex aligns-items-center justify-content-center card text-center w-75 mx-auto">
+			<div class="card">
+				<div class="card-top" style={{color: "red"}}>
+					Are youshure you want to delete the module: {delName}? There are nodes using it
+				</div>
+				<div class="card-body" style={{color: "black"}}>
+					<div>
+						If you decide to delete it, the nodes using the module wil be deletd too
+					</div>
+					<div>
+					<button
+						type="button"
+						class="no"
+						onClick={() => deleteModule(delName,true)} 
+						
+					>Yes</button>
+					<button
+						type="button"
+						class="yes"
+						onClick={() => setConfirmDel(false)}
+					>No</button>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	)
+	
+}
+
+
+
+
+
+
+
+
+
+
+
+
+export function ShowModulsBody({ modules, setModules, toggleModuls,nodes, setNodes}) {
 	const [addModule, setAddModule] = useState(false);
 
 	const [name, setName] = useState();
@@ -12,18 +56,53 @@ export function ShowModulsBody({ modules, setModules, toggleModuls }) {
 	const [type_out, setType_Out] = useState();
 	const [code, setCode] = useState();
 
+	const [confirmDel,setConfirmDel] = useState(false)
+	const [delName,setDelName] = useState("")
+
 	function toggleAddModule() {
 		setAddModule(!addModule);
 	}
 
-	const deleteModule = (name) => {
-		fetch(conectionPath + "/module/" + name, {
+
+	const deleteModuleComp = (modName) => {
+		var del = confirmDel
+		for (let index = 0; index < nodes.length; index++) {
+			if(nodes[index].data.scriptName === modName){
+				
+				del = true
+				setConfirmDel(true)
+				setDelName(modName)
+				break
+				
+			}
+			
+		}
+		if(del === false){
+			deleteModule(modName,false);
+		}
+
+	};
+
+	const deleteModule = (modName,IsNode) => {
+		if(IsNode){
+			nodes.map((node) => {
+				if (node.data.scriptName === modName) {
+					const index = nodes.indexOf(node);
+					let nodes_cp = nodes;
+					nodes_cp.splice(index, 1);
+					setNodes(nodes_cp);
+				}
+			});
+
+
+		}
+		fetch(conectionPath + "/module/" + modName, {
 			method: "DELETE",
 			mode: "cors",
 		}).then((response) => {
 			if (response.status === 200) {
 				modules.map((module) => {
-					if (module.name === name) {
+					if (module.name === modName) {
 						const index = modules.indexOf(module);
 						let modules_cp = modules;
 						modules_cp.splice(index, 1);
@@ -33,9 +112,9 @@ export function ShowModulsBody({ modules, setModules, toggleModuls }) {
 				});
 			}
 		});
-	};
+	}
 
-	const handleSubmit = (event) => {
+	function handleSubmit(event){
 		// prevents the submit button from refreshing the page
 		event.preventDefault();
 		const data = {
@@ -89,7 +168,7 @@ export function ShowModulsBody({ modules, setModules, toggleModuls }) {
 	return (
 		<div class="card mx-auto" id="inCardSM">
 			<div class="accordion mx-auto" id="accordionExample">
-				{!addModule && (
+				{(!addModule && !confirmDel )&& (
 					<>
 						{modules.map((module) => (
 							<p key={module.name}>
@@ -139,7 +218,7 @@ export function ShowModulsBody({ modules, setModules, toggleModuls }) {
 													class="m-3 position-relative top-0 end-100%"
 													aria-label="Close"
 													onClick={() =>
-														deleteModule(
+														deleteModuleComp(
 															module.name
 														)
 													}
@@ -160,7 +239,12 @@ export function ShowModulsBody({ modules, setModules, toggleModuls }) {
 						>
 							Add new module
 						</button>
+						
 					</>
+					
+				)}
+				{(confirmDel && !addModule) &&(
+							<ConfirmationCard setConfirmDel={setConfirmDel} delName={delName} deleteModule={deleteModule}/>
 				)}
 				{addModule && (
 					<>
@@ -263,7 +347,7 @@ export function ShowModulsBody({ modules, setModules, toggleModuls }) {
 	);
 }
 
-export function ShowModuls({ toggleModuls, modules, setModules, setNewNode }) {
+export function ShowModuls({ toggleModuls, modules, setModules, nodes, setNodes }) {
 	return (
 		<div className="showModuls">
 			<div className="showModuls-card">
@@ -278,7 +362,7 @@ export function ShowModuls({ toggleModuls, modules, setModules, setNewNode }) {
 							type="button"
 							class="btn-close"
 							aria-label="Close"
-							onClick={toggleModuls}
+							onClick={ toggleModuls}
 						></button>
 					</button>
 				</div>
@@ -288,6 +372,8 @@ export function ShowModuls({ toggleModuls, modules, setModules, setNewNode }) {
 					modules={modules}
 					setModules={setModules}
 					toggleModuls={toggleModuls}
+					nodes={nodes}
+					setNodes={setNodes}
 				/>
 				<div>
 					<p></p>
