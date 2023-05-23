@@ -2,8 +2,9 @@ import "./css/showModuls.sass";
 import React, { useEffect, useState } from "react";
 import { conectionPath } from "../API/globals";
 import ConfirmationCard from "./confirmatioCard";
+import "./css/showNewNode.sass";
 
-export function ShowModulsBody({
+export function ShowModuls({
   modules,
   setModules,
   toggleModuls,
@@ -121,198 +122,222 @@ export function ShowModulsBody({
     setCode("");
   }
 
+  function formatListWithCommas(list) {
+    if (!Array.isArray(list)) {
+      return ""; // Return empty string if input is not an array
+    }
+
+    if (list.length === 0) {
+      return ""; // Return empty string if the array is empty
+    }
+
+    const formattedList = list.map((item, index) => {
+      if (index === list.length - 1) {
+        return item; // No comma needed for the last item
+      } else {
+        return item + ", "; // Add comma for other items
+      }
+    });
+
+    return formattedList.join(""); // Convert the array to a string
+  }
+
   return (
-    <div className="showModuls-content">
-      {!addModule && !confirmDel && (
-        <div class="card mx-auto" id="inCardSM">
-          <div class="accordion mx-auto" id="accordionExample">
-            {modules.map((module) => (
-              <p key={module.name}>
-                <div class="accordion-item">
-                  <h2 class="accordion-header" id={"headling" + module.name}>
-                    <button
-                      class="accordion-button collapsed"
-                      type="button"
-                      data-bs-toggle="collapse"
-                      data-bs-target={"#collapse" + module.name}
-                      aria-expanded="false"
-                      aria-controls={"headling" + module.name}
+    <div className="showModuls">
+      <div className="showModuls-card">
+        <div id="closeCrossModuls">
+          <button
+            type="button"
+            class="btn-close btn-light m-3 position-relative top-0 start-0"
+            aria-label="Close"
+            onClick={toggleModuls}
+          ></button>
+        </div>
+        <div className="showModuls-content">
+          {!addModule && !confirmDel && (
+            <div class="accordion title" id="accordionExample">
+              <h2>Moduls</h2>
+              {modules.map((module) => (
+                <div key={module.name}>
+                  <div class="accordion-item">
+                    <h2 class="accordion-header" id={"heading" + module.name}>
+                      <button
+                        class="accordion-button collapsed "
+                        type="button"
+                        data-bs-toggle="collapse"
+                        data-bs-target={"#collapse" + module.name}
+                        aria-expanded="false"
+                        aria-controls={"collapse" + module.name}
+                      >
+                        {module.name}
+                      </button>
+                    </h2>
+
+                    <div
+                      id={"collapse" + module.name}
+                      class="accordion-collapse collapse"
+                      aria-labelledby={"heading" + module.name}
+                      data-bs-parent="#accordionExample"
                     >
-                      {module.name}
-                    </button>
-                  </h2>
-                  <div
-                    id={"collapse" + module.name}
-                    class="accordion-button collapsed collapse"
-                    aria-labelledby="headingOne"
-                    data-bs-parent="#accordionExample"
-                  >
-                    <div class="accordion-body">
-                      <li>type: {module.type}</li>
-                      <li>description: {module.description}</li>
-                      <li>Expected dataType: {module.type_in}</li>
-                      <li>Output dataType: {module.type_out}</li>
-                      <li>
+                      <div class="accordion-body">
+                        <p>
+                          <strong>Type: </strong>
+                          <span
+                            className={`badge ${
+                              module !== null ? module.type : null
+                            }`}
+                          >
+                            {module !== null ? module.type : null}
+                          </span>
+                        </p>
+                        <p>
+                          <strong>Description: </strong>
+                          {module.description}
+                        </p>
+                        {module.type != "Input" && (
+                          <p>
+                            <strong>Input data type: </strong>
+                            {formatListWithCommas(module.type_in)}
+                          </p>
+                        )}
+                        {module.type != "Output" && (
+                          <p>
+                            <strong>Output data type: </strong>
+                            {formatListWithCommas(module.type_out)}
+                          </p>
+                        )}
                         <button
                           type="button"
-                          class="m-3 position-relative top-0 end-100%"
+                          class="m-3 position-relative"
+                          className="deleteModul"
                           aria-label="Close"
                           onClick={() => deleteModuleComp(module.name)}
                         >
                           Delete module
                         </button>
-                      </li>
+                      </div>
                     </div>
                   </div>
                 </div>
-              </p>
-            ))}
-            <button
-              type="button"
-              class="m-3 position-relative top-0 end-100%"
-              aria-label="Close"
-              onClick={toggleAddModule}
-            >
-              Add new module
-            </button>
-          </div>
-        </div>
-      )}
-      {confirmDel && !addModule && (
-        <ConfirmationCard
-          setConfirmDel={setConfirmDel}
-          delName={delName}
-          deleteModule={deleteModule}
-        />
-      )}
-      {addModule && (
-        <div className="form-box">
-          <form
-            id="newModule"
-            name="newModule"
-            onSubmit={(e) => {
-              handleSubmit(e);
-            }}
-          >
-            <p>
-              Name:
-              <input
-                name="name"
-                type="text"
-                id="moduleNameIn"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              ></input>
-            </p>
-            <p>
-              Type:
-              <select
-                name="type"
-                id="moduleTypeIn"
-                value={type}
-                onChange={(e) => setType(e.target.value)}
+              ))}
+            </div>
+          )}
+          {confirmDel && !addModule && (
+            <ConfirmationCard
+              setConfirmDel={setConfirmDel}
+              delName={delName}
+              deleteModule={deleteModule}
+            />
+          )}
+          {addModule && (
+            <div className="showNewNode-card">
+              <h2>New Modul</h2>
+              <form
+                id="newModule"
+                name="newModule"
+                onSubmit={(e) => {
+                  handleSubmit(e);
+                }}
               >
-                <option value="Input">Input</option>
-                <option value="Output">Output</option>
-                <option value="Transform">Transform</option>
-              </select>
-            </p>
-            <p>
-              Description:
-              <input
-                name="description"
-                type="text"
-                id="moduleDescriptionIn"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-              ></input>
-            </p>
-            {type != "Input" && (
-              <p>
-                Input data:
-                <input
-                  name="type_in"
-                  type="text"
-                  id="moduleInIn"
-                  value={type_in}
-                  onChange={(e) => setType_in(e.target.value)}
-                ></input>
-              </p>
-            )}
-            {type != "Output" && (
-              <p>
-                Output data:
-                <input
-                  name="type_out"
-                  type="text"
-                  id="moduleOutIn"
-                  value={type_out}
-                  onChange={(e) => setType_Out(e.target.value)}
-                ></input>
-              </p>
-            )}
-            <p>
-              Code file:
-              <input
-                name="code"
-                type="file"
-                id="moduleFileIn"
-                value={code}
-                onChange={(e) => setCode(e.target.value)}
-              ></input>
-            </p>
-            <button type="submit" id="moduleSubmit">
-              Submit
-            </button>
-          </form>
+                <p>
+                  Name:
+                  <input
+                    name="name"
+                    type="text"
+                    id="moduleNameIn"
+                    class="form--input"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                  ></input>
+                </p>
+                <p>
+                  Type:
+                  <select
+                    name="type"
+                    id="moduleTypeIn"
+                    class="form--dropdown"
+                    value={type}
+                    onChange={(e) => setType(e.target.value)}
+                  >
+                    <option value="Input">Input</option>
+                    <option value="Output">Output</option>
+                    <option value="Transform">Transform</option>
+                  </select>
+                </p>
+                <p>
+                  Description:
+                  <input
+                    name="description"
+                    type="text"
+                    id="moduleDescriptionIn"
+                    value={description}
+                    onChange={(e) => setDescription(e.target.value)}
+                  ></input>
+                </p>
+                {type != "Input" && (
+                  <p>
+                    Input data:
+                    <input
+                      name="type_in"
+                      type="text"
+                      id="moduleInIn"
+                      value={type_in}
+                      onChange={(e) => setType_in(e.target.value)}
+                    ></input>
+                  </p>
+                )}
+                {type != "Output" && (
+                  <p>
+                    Output data:
+                    <input
+                      name="type_out"
+                      type="text"
+                      id="moduleOutIn"
+                      value={type_out}
+                      onChange={(e) => setType_Out(e.target.value)}
+                    ></input>
+                  </p>
+                )}
+                <p>
+                  Code file:
+                  <input
+                    name="code"
+                    type="file"
+                    id="moduleFileIn"
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                  ></input>
+                </p>
+                <button
+                  type="button"
+                  class="m-3 position-relative top-0 end-100% form--close"
+                  aria-label="Close"
+                  onClick={toggleAddModule}
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  id="moduleSubmit"
+                  className="form--submit"
+                >
+                  Submit
+                </button>
+              </form>
+            </div>
+          )}
+        </div>
+        {!addModule && !confirmDel && (
           <button
             type="button"
             class="m-3 position-relative top-0 end-100%"
+            className="CreateModul"
             aria-label="Close"
             onClick={toggleAddModule}
           >
-            Cancel
+            Add Module
           </button>
-        </div>
-      )}
-    </div>
-  );
-}
-
-export function ShowModuls({
-  toggleModuls,
-  modules,
-  setModules,
-  nodes,
-  setNodes,
-}) {
-  return (
-    <div className="showModuls">
-      <div className="showModuls-card">
-        <div className="showModuls-header">
-          <div id="closeCrossModuls">
-            <button
-              type="button"
-              class="btn-close btn-light m-3 position-relative top-0 start-0"
-              aria-label="Close"
-              onClick={toggleModuls}
-            ></button>
-          </div>
-          <h2>Moduls</h2>
-        </div>
-        <ShowModulsBody
-          modules={modules}
-          setModules={setModules}
-          toggleModuls={toggleModuls}
-          nodes={nodes}
-          setNodes={setNodes}
-        />
-        <div>
-          <p></p>
-        </div>
-        <div>
-          <p></p>
-        </div>
+        )}
       </div>
     </div>
   );

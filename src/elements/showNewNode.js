@@ -79,7 +79,7 @@ export function ShowNewNode({ togglenewnode, nodes, setNodes }) {
 	return (
 		<div className="showModuls">
 			<div className="showNewNode-card">
-				<h2 className="newNodeHeading">New node</h2>
+				<h2 className="Heading">New node</h2>
 				<div id="newNode">
 					<div>
 						<form
