@@ -161,7 +161,7 @@ function App() {
 				open={infoOpen}
 				node={infoNode}
 				closeInfo={closeInfo}
-				editMode={editMode}
+				editMode={true}
 			/>
 			{modulsIsOpen && (
 				<ShowModuls
@@ -187,7 +187,7 @@ function App() {
 					closeInfo={closeInfo}
 					openInfo={openInfo}
 					isOpen={infoOpen}
-					mode={editMode}
+					mode={!isStarted}
 					nodes={nodes}
 					setNodes={setNodes}
 					modules={modules}
