@@ -176,6 +176,8 @@ function App() {
 					toggleModuls={handleToggleModuls}
 					modules={modules}
 					setModules={setModules}
+					nodes={nodes}
+					setNodes={setNodes}
 				/>
 			)}
 			{NewNode && (
