@@ -1,66 +1,87 @@
 import "./css/logs.sass";
+import "./css/showNewNode.sass";
+
 import { useEffect, useState, useRef } from "react";
 import { conectionPath } from "../API/globals";
 
 export function LogCard({ closeInfo, node, open }) {
-	const [info, setInfo] = useState();
-	const [startDate, setStartDate] = useState("");
-	const [endDate, setEndDate] = useState("");
+  const [info, setInfo] = useState();
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-	const myInterval = useRef();
-	useEffect(() => {
-		return () => clearInterval(myInterval.current);
-	}, [node]);
+  const myInterval = useRef();
+  useEffect(() => {
+    return () => clearInterval(myInterval.current);
+  }, [node]);
 
-	useEffect(() => {
-		if (open) {
-			getAlerts();
-			myInterval.current = setInterval(() => getAlerts(), 5000);
-		} else {
-			clearInterval(myInterval.current);
-			myInterval.current = null;
-		}
-	}, [open]);
+  useEffect(() => {
+    if (open) {
+      getAlerts();
+      myInterval.current = setInterval(() => getAlerts(), 5000);
+    } else {
+      clearInterval(myInterval.current);
+      myInterval.current = null;
+    }
+  }, [open]);
 
-	function getAlerts() {
-		const requestOptions = {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({ number: 10, fromDate: startDate, toDate: endDate }),
-		};
-		fetch(conectionPath + "/graph/logs/" + node.data.name, requestOptions)
-			.then((res) => {
-				return res.text();
-			})
-			.then((text) => {
-				//console.log(text)
-				setInfo(text);
-			});
-	}
+  function getAlerts() {
+    const requestOptions = {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        number: 10,
+        fromDate: startDate,
+        toDate: endDate,
+      }),
+    };
+    fetch(conectionPath + "/graph/logs/" + node.data.name, requestOptions)
+      .then((res) => {
+        return res.text();
+      })
+      .then((text) => {
+        //console.log(text)
+        setInfo(text);
+      });
+  }
 
-	const handleSubmit = (event) => {
-		event.preventDefault();
-		// Perform your function here
-	  };
-	
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    // Perform your function here
+  };
+  const defaultLogs = "[created_at, log_levelname, type, name, created_by, log]\n['2023-05-23 19:39:01', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:02', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:03', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:04', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:05', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:06', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:07', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:08', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:09', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:10', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']"
+  return (
+    <div className="logsSection">
+      <div className="Header">
+        <h4>Logs</h4>
+      </div>
+      <div className="logsForm">
+        <form id="timeForm" onSubmit={handleSubmit}>
+          <input
+            type="time"
+            id="timeInit"
+			className=""
+            name="timeInit"
+            onSubmit={(e) => setStartDate(e.target.value)}
+            required
+          />
+          <input
+            type="time"
+            id="timeEnd"
+			className=""
 
-	return (
-		<div className="info-start">
-			<div className="Header">
-				<h4>Logs</h4>
-			</div>
-			<div>
-				<form id="timeForm" onSubmit={handleSubmit}>
-					<input type="time" id="timeInit" name="timeInit" onSubmit={((e) => setStartDate(e.target.value))} required />
-					<input type="time" id="timeEnd" name="timeEnd" onSubmit={(e) => setEndDate(e.target.value)} required />
-					<button type="submit"> Set Data</button>
-				</form>
-			</div>
-			<div className="info-card" id="logsScreen">
-				<div className="text">
-					<div className="infoBody">{info}</div>
-				</div>
-			</div>
-		</div>
-	);
+            name="timeEnd"
+            onSubmit={(e) => setEndDate(e.target.value)}
+            required
+          />
+          <button type="submit" className="form--close">Submit</button>
+        </form>
+      </div>
+      <div className="info-card" id="logsScreen">
+          <div className="infoBody">
+            {defaultLogs}
+          </div>
+        
+      </div>
+    </div>
+  );
 }
