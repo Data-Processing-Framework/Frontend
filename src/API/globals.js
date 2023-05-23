@@ -1,1 +1,1 @@
-export const conectionPath = "https://virtserver.swaggerhub.com/BIELCAMPRUBI/DPF/1";
+export const conectionPath = "http://localhost:5000";
