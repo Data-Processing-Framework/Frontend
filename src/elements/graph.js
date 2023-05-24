@@ -117,7 +117,7 @@ export const Graph = forwardRef((props, ref) => {
 				props.modules[indexSource].type_out[0]
 			) ||
 			props.modules[indexTarget].type_in == "any" ||
-      props.modules[indexSource].type_out[0] == "any"
+			props.modules[indexSource].type_out[0] == "any"
 		) {
 			setNewConectionType(props.modules[indexSource].type_out[0]); //this is to use it when creating the new edge and set the type
 			return true;
@@ -193,10 +193,30 @@ export const Graph = forwardRef((props, ref) => {
 			const flow = rfInstance.toObject();
 			localStorage.setItem(flowKey, JSON.stringify(flow));
 		}
+
+		//TODO put graph
+		const getGraph = async () => {
+			const flow = JSON.parse(localStorage.getItem(flowKey));
+			if (flow) {
+				console.log(flow.nodes);
+				console.log(flow.edges);
+				return joinGraph(flow.nodes, flow.edges);
+			}
+		};
+		const graph = getGraph();
+		console.log(graph);
+		//do the put
+		fetch(conectionPath + "/graph", {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: graph,
+		});
 	}, [rfInstance]);
 
 	React.useImperativeHandle(ref, () => ({
-		onSave,
+		onSave, restoreFlow
 	}));
 
 	const restoreFlow = async () => {

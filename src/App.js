@@ -63,35 +63,9 @@ function App() {
 	// Reference to child component
 	const graphRef = useRef(null);
 
-	// Parent component's function
-	const saveGraph = () => {
-		// Call the child component's function
-		console.log("Saving graph from App.js...");
-		graphRef.current.onSave();
-	};
-
 	const sysStart = () => {
 		setEditMode(false);
-		saveGraph();
-		//TODO put graph
-		const getGraph = async () => {
-			const flow = JSON.parse(localStorage.getItem(flowKey));
-			if (flow) {
-				console.log(flow.nodes);
-				console.log(flow.edges);
-				return joinGraph(flow.nodes, flow.edges);
-			}
-		};
-		const graph = getGraph();
-		console.log(graph);
-		//do the put
-		fetch(conectionPath + "/graph", {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: graph,
-		});
+		graphRef.current.restoreFlow()
 	};
 
 	const sysRestart = () => {
