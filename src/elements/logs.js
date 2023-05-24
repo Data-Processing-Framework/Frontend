@@ -48,7 +48,6 @@ export function LogCard({ closeInfo, node, open }) {
     event.preventDefault();
     // Perform your function here
   };
-  const defaultLogs = "[created_at, log_levelname, type, name, created_by, log]\n['2023-05-23 19:39:01', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:02', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:03', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:04', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:05', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:06', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:07', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:08', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:09', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']\n['2023-05-23 19:39:10', 'INFO', 'Input', 'Input1', 'worker-input', 'dummy -> OK']"
   return (
     <div className="logsSection">
       <div className="Header">
@@ -78,7 +77,7 @@ export function LogCard({ closeInfo, node, open }) {
       </div>
       <div className="info-card" id="logsScreen">
           <div className="infoBody">
-            {defaultLogs}
+            {info}
           </div>
         
       </div>
