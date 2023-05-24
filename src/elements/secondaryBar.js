@@ -19,7 +19,7 @@ export function SecondaryBar(props) {
 
 	return (
 		<div>
-			<div className={`${mode ? "activeBarGreen" : "activeBarRed"}`}></div>
+			<div className={`${mode ? "activeBarRed" : "activeBarGreen"}`}></div>
 
 			<EditBar
 				isOpen={props.isOpen}
