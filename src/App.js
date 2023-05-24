@@ -66,6 +66,8 @@ function App() {
 	const sysStart = () => {
 		setEditMode(false);
 		graphRef.current.restoreFlow()
+		//set alerrt that it restored
+		fetch(conectionPath + "/system/start");
 	};
 
 	const sysRestart = () => {
