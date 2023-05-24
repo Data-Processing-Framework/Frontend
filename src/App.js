@@ -13,6 +13,8 @@ const flowKey = "DPF-Graph";
 
 import { conectionPath } from "./API/globals";
 import { makeModules } from "./functionalities/makeModules";
+import Toast from "react-bootstrap/Toast";
+import { Badge, ToastContainer } from "react-bootstrap";
 
 function App() {
 	//---------------------------Visibiility Handlers-----------------------------------------
@@ -20,6 +22,8 @@ function App() {
 
 	const [infoNode, setInfoNode] = useState(null);
 	const [infoOpen, setInfoOpen] = useState(false);
+	const [isStarted, setIsStarted] = useState(true);
+	const [errors, setErrors] = useState([]);
 	const closeInfo = () => {
 		setInfoOpen(false);
 		setInfoNode(null);
@@ -53,20 +57,7 @@ function App() {
 	const sysStop = () => {
 		setEditMode(true);
 		//fetch /system/stop
-		fetch(conectionPath + "/system/stop").then((response) => {
-			console.log(response);
-		});
-		//get /sytem/status
-		fetch(conectionPath + "/system/status")
-			.then((response) => {
-				console.log(response);
-				return response.json();
-			})
-			.then((json) => {
-				console.log("On Stop sysyem/status: ");
-				console.log(json);
-				//TODO create alert toast if error
-			});
+		fetch(conectionPath + "/system/stop");
 	};
 
 	// Reference to child component
@@ -100,42 +91,12 @@ function App() {
 				"Content-Type": "application/json",
 			},
 			body: graph,
-		}).then((response) => {
-			console.log(response);
-			return response.json();
 		});
-
-		//fetch /system/start
-		fetch(conectionPath + "/system/status")
-			.then((response) => {
-				console.log(response);
-				return response.json();
-			})
-			.then((json) => {
-				console.log("On Start sysyem/status: ");
-				console.log(json);
-				//TODO create alert toast if error
-				//json.errors.forEach(printError)
-			});
 	};
 
 	const sysRestart = () => {
 		//fetch /system/restart
-		fetch(conectionPath + "/system/restart").then((response) => {
-			console.log(response);
-		});
-		//get /sytem/status
-		fetch(conectionPath + "/system/status")
-			.then((response) => {
-				console.log(response);
-				return response.json();
-			})
-			.then((json) => {
-				console.log("On Restart sysyem/status: ");
-				console.log(json);
-				//TODO create alert toast if error
-				//json.errors.forEach(printError)
-			});
+		fetch(conectionPath + "/system/restart");
 	};
 	//--------------------------------NODES-----------------------------------
 	const [nodes, setNodes] = useState([]);
@@ -158,11 +119,31 @@ function App() {
 			});
 		// empty dependency array means this effect will only run once (like componentDidMount in classes)
 	}, []);
-	//---------------------------AL TANCAR O REFRESCAR----------------------
-	window.addEventListener("beforeunload", (ev) => 
-	{
-		sysStop()
-	});
+
+	useEffect(() => {
+		const status = () => {
+			let editModeTemp = true;
+			let errorsTemp = [];
+			fetch(conectionPath + "/system/status").then((response) => {
+				response.json().then((json) => {
+					Object.keys(json.response).forEach((key) => {
+						if (json.response[key].status !== "RUNNING") {
+							editModeTemp = false;
+						}
+						if (json.response[key].status === "ERROR") {
+							errorsTemp.push(json.response[key].errors);
+						}
+					});
+					setIsStarted(editModeTemp);
+					if (errorsTemp !== errors) {
+						setErrors(errorsTemp);
+					}
+				});
+			});
+		};
+		status();
+		setInterval(status, 5000);
+	}, []);
 
 	//---------------------------------APP-----------------------------------
 	return (
@@ -171,11 +152,17 @@ function App() {
 				sysStart={sysStart}
 				sysStop={sysStop}
 				sysRestart={sysRestart}
-				editMode={editMode}
+				editMode={!isStarted}
 				toggleModuls={handleToggleModuls}
 				toggleNewNode={handleToggleNewNode}
 			/>
-			<Info open={infoOpen} node={infoNode} closeInfo={closeInfo} editMode={editMode} />
+
+			<Info
+				open={infoOpen}
+				node={infoNode}
+				closeInfo={closeInfo}
+				editMode={true}
+			/>
 			{modulsIsOpen && (
 				<ShowModuls
 					toggleModuls={handleToggleModuls}
@@ -200,15 +187,42 @@ function App() {
 					closeInfo={closeInfo}
 					openInfo={openInfo}
 					isOpen={infoOpen}
-					mode={editMode}
+					mode={!isStarted}
 					nodes={nodes}
 					setNodes={setNodes}
 					modules={modules}
 					ref={graphRef}
 				/>
 			</ReactFlowProvider>
-
-			<Alert />
+			<ToastContainer className="position-absolute start-50 translate-middle-x">
+				<br />
+				<br />
+				<br />
+				{errors.map((err) => {
+					return (
+						<Toast
+							onClose={() => {
+								setErrors(errors.filter((e) => e !== err));
+							}}
+							show={true}
+							delay={10000}
+							autohide
+							bg="warning"
+							class="opacity-50"
+						>
+							<Toast.Header>
+								<Badge bg="danger">!</Badge>
+								&nbsp; &nbsp;
+								<strong className="mr-auto">{err.error}</strong>
+							</Toast.Header>
+							<Toast.Body>
+								Error message: {err.message} <br />{" "}
+								<small>Remediation: {err.detail}</small>
+							</Toast.Body>
+						</Toast>
+					);
+				})}
+			</ToastContainer>
 		</div>
 	);
 }
