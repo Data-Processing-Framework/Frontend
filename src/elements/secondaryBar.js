@@ -18,7 +18,9 @@ export function SecondaryBar(props) {
 	}, [props.mode]);
 
 	return (
-		<div className={`${mode ? "editBar" : "activeBar"}`}>
+		<div>
+			<div className={`${mode ? "activeBarGreen" : "activeBarRed"}`}></div>
+
 			<EditBar
 				isOpen={props.isOpen}
 				onSave={props.onSave}
@@ -38,7 +40,8 @@ export function EditBar(props) {
 	}, [props.isOpen]);
 
 	return (
-		<div className={`editButtons ${infoOpen ? "open" : "closed"} `}>
+		<div className="editBar">
+			<div className={`editButtons ${infoOpen ? "open" : "closed"} `}>
 			<button onClick={props.onRestore}>
 				<img className="button" src={undo} alt="undo" />
 			</button>
@@ -71,6 +74,7 @@ export function EditBar(props) {
                     <img className='button' src={submit} alt='submit' />
                 </button>
                 */}
+		</div>
 		</div>
 	);
 }
