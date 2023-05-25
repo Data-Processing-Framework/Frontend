@@ -17,6 +17,8 @@ import InputNode from "./grafNodes/inputNode.js";
 import ProcessingNode from "./grafNodes/processingNode.js";
 import OutputNode from "./grafNodes/outputNode.js";
 import { conectionPath } from "../API/globals";
+import { joinGraph } from "../functionalities/joinGraph";
+
 
 import { divideGraph } from "../functionalities/divideGraph";
 import { markerEndStyle } from "../functionalities/markerEndStyle";
@@ -189,30 +191,21 @@ export const Graph = forwardRef((props, ref) => {
 	}, [props.selectedNode, props.setNodes]);
 
 	const onSave = useCallback(() => {
+		
 		if (rfInstance) {
 			const flow = rfInstance.toObject();
 			localStorage.setItem(flowKey, JSON.stringify(flow));
+			var graph = joinGraph(flow.nodes, flow.edges);
+			fetch(conectionPath + "/graph", {
+				method: "PUT",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify(graph),
+			});
 		}
 
-		//TODO put graph
-		const getGraph = async () => {
-			const flow = JSON.parse(localStorage.getItem(flowKey));
-			if (flow) {
-				console.log(flow.nodes);
-				console.log(flow.edges);
-				return joinGraph(flow.nodes, flow.edges);
-			}
-		};
-		const graph = getGraph();
-		console.log(graph);
 		//do the put
-		fetch(conectionPath + "/graph", {
-			method: "PUT",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: graph,
-		});
 	}, [rfInstance]);
 
 	React.useImperativeHandle(ref, () => ({
