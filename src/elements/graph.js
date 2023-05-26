@@ -19,7 +19,6 @@ import OutputNode from "./grafNodes/outputNode.js";
 import { conectionPath } from "../API/globals";
 import { joinGraph } from "../functionalities/joinGraph";
 
-
 import { divideGraph } from "../functionalities/divideGraph";
 import { markerEndStyle } from "../functionalities/markerEndStyle";
 const flowKey = "DPF-Graph";
@@ -60,13 +59,13 @@ export const Graph = forwardRef((props, ref) => {
 			console.log("EditMode is true");
 		} else {
 			// Settings when edit is false
-			setEditMode(false);
-			setIsSelectable(false);
-			setIsDraggable(false);
-			setIsConnectable(false);
-			setCaptureElementClick(false);
-			setDeleteKeyCode(null);
-			console.log("EditMode is false");
+			setEditMode(true);
+			setIsSelectable(true);
+			setIsDraggable(true);
+			setIsConnectable(true);
+			setCaptureElementClick(true);
+			setDeleteKeyCode("Backspace");
+			console.log("EditMode is true");
 		}
 	}, [props.mode]);
 
@@ -191,7 +190,6 @@ export const Graph = forwardRef((props, ref) => {
 	}, [props.selectedNode, props.setNodes]);
 
 	const onSave = useCallback(() => {
-		
 		if (rfInstance) {
 			const flow = rfInstance.toObject();
 			localStorage.setItem(flowKey, JSON.stringify(flow));
@@ -209,7 +207,8 @@ export const Graph = forwardRef((props, ref) => {
 	}, [rfInstance]);
 
 	React.useImperativeHandle(ref, () => ({
-		onSave, restoreFlow
+		onSave,
+		restoreFlow,
 	}));
 
 	const restoreFlow = async () => {
