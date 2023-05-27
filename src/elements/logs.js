@@ -22,7 +22,7 @@ export function LogCard({ closeInfo, node, open }) {
       clearInterval(myInterval.current);
       myInterval.current = null;
     }
-  }, [open]);
+  }, [open,node]);
 
   function getAlerts() {
     const requestOptions = {
