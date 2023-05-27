@@ -8,7 +8,11 @@ export function LogCard({ closeInfo, node, open }) {
   const [info, setInfo] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [tempStartDate, setTempStartDate] = useState("");
+  const [tempEndDate, setTempEndDate] = useState("");
 
+
+  
   const myInterval = useRef();
   useEffect(() => {
     return () => clearInterval(myInterval.current);
@@ -46,7 +50,9 @@ export function LogCard({ closeInfo, node, open }) {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    setStartDate(tempStartDate)  
+    setEndDate(tempEndDate) 
+    console.log(startDate)
     // Perform your function here
   };
   return (
