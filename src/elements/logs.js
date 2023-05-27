@@ -49,7 +49,7 @@ export function LogCard({ closeInfo, node, open }) {
       });
   }
 
-  const handleSubmit = (event) => {
+  const handleSubmit = () => {
     setStartDate(tempStartDate)  
     setEndDate(tempEndDate) 
     console.log(startDate)
@@ -61,13 +61,12 @@ export function LogCard({ closeInfo, node, open }) {
         <h4>Logs</h4>
       </div>
       <div className="logsForm">
-        <form id="timeForm" onSubmit={handleSubmit}>
           <input
             type="time"
             id="timeInit"
 			className=""
             name="timeInit"
-            onSubmit={(e) => setStartDate(e.target.value)}
+            onClick={(e) => setTempStartDate(e.target.value)}
             required
           />
           <input
@@ -76,11 +75,10 @@ export function LogCard({ closeInfo, node, open }) {
 			className=""
 
             name="timeEnd"
-            onSubmit={(e) => setEndDate(e.target.value)}
+            onClick={(e) => setTempEndDate(e.target.value)}
             required
           />
-          <button type="submit" className="form--close">Submit</button>
-        </form>
+          <button type="submit" className="form--close" onClick={handleSubmit}>Submit</button>
       </div>
       <div className="info-card" id="logsScreen">
           <div className="infoBody">
