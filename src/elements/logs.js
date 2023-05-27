@@ -17,12 +17,13 @@ export function LogCard({ closeInfo, node, open }) {
   useEffect(() => {
     if (open) {
       getAlerts();
+      clearInterval(myInterval.current)
       myInterval.current = setInterval(() => getAlerts(), 5000);
     } else {
       clearInterval(myInterval.current);
       myInterval.current = null;
     }
-  }, [open,node]);
+  }, [open,node,startDate,endDate]);
 
   function getAlerts() {
     const requestOptions = {
