@@ -112,7 +112,7 @@ export function ShowModuls({
     newModule.code = data.code;
     modulesArray.push(newModule);
     setModules(modulesArray);
-    console.log(modules);
+    console.log(newModule);
 
     setName("");
     setType("");
@@ -124,7 +124,7 @@ export function ShowModuls({
 
   function formatListWithCommas(list) {
     if (!Array.isArray(list)) {
-      return ""; // Return empty string if input is not an array
+      return list; // Return empty string if input is not an array
     }
 
     if (list.length === 0) {
@@ -196,7 +196,7 @@ export function ShowModuls({
                         </p>
                         {module.type != "Input" && (
                           <p>
-                            <strong>Input data type: </strong>
+                            <strong>Input data type:  </strong>
                             {formatListWithCommas(module.type_in)}
                           </p>
                         )}

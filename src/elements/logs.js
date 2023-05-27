@@ -8,6 +8,10 @@ export function LogCard({ closeInfo, node, open }) {
   const [info, setInfo] = useState();
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
+  const [tempStartDate, setTempStartDate] = useState("");
+  const [tempEndDate, setTempEndDate] = useState("");
+
+
 
   const myInterval = useRef();
   useEffect(() => {
@@ -45,7 +49,9 @@ export function LogCard({ closeInfo, node, open }) {
   }
 
   const handleSubmit = (event) => {
-    event.preventDefault();
+    setStartDate(tempStartDate)  
+    setEndDate(tempEndDate) 
+    console.log(startDate)
     // Perform your function here
   };
   return (
@@ -53,27 +59,24 @@ export function LogCard({ closeInfo, node, open }) {
       <div className="Header">
         <h4>Logs</h4>
       </div>
-      <div className="logsForm">
-        <form id="timeForm" onSubmit={handleSubmit}>
+      <div className="logsForm"> 
           <input
             type="time"
             id="timeInit"
-			className=""
+			      className=""
             name="timeInit"
-            onSubmit={(e) => setStartDate(e.target.value)}
+            onChange={(e) => setTempStartDate(e.target.value)}
             required
           />
           <input
             type="time"
             id="timeEnd"
-			className=""
-
+			      className=""
             name="timeEnd"
-            onSubmit={(e) => setEndDate(e.target.value)}
+            onChange={(e) => setTempEndDate(e.target.value)}
             required
           />
-          <button type="submit" className="form--close">Submit</button>
-        </form>
+          <button type="submit" className="form--close" onClick={()=>handleSubmit()}>Submit</button>
       </div>
       <div className="info-card" id="logsScreen">
           <div className="infoBody">

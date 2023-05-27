@@ -88,10 +88,11 @@ function App() {
 				return response.json();
 			})
 			.then((json) => {
-				console.log(json);
 				const { initialModules } = makeModules(json);
 				console.log(initialModules);
 				setModules(initialModules);
+				console.log(modules);
+				
 			});
 		// empty dependency array means this effect will only run once (like componentDidMount in classes)
 	}, []);
