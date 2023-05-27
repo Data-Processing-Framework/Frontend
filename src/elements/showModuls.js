@@ -123,8 +123,10 @@ export function ShowModuls({
   }
 
   function formatListWithCommas(list) {
+    
+    
     if (!Array.isArray(list)) {
-      return ""; // Return empty string if input is not an array
+      return list; // Return empty string if input is not an array
     }
 
     if (list.length === 0) {
@@ -284,6 +286,7 @@ export function ShowModuls({
                       value={type_in}
                       onChange={(e) => setType_in(e.target.value)}
                     ></input>
+                    Format: ["str","JSON"]
                   </p>
                 )}
                 {type != "Output" && (
@@ -296,6 +299,8 @@ export function ShowModuls({
                       value={type_out}
                       onChange={(e) => setType_Out(e.target.value)}
                     ></input>
+                      Format: ["str","JSON"]
+
                   </p>
                 )}
                 <p>
