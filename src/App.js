@@ -170,35 +170,6 @@ function App() {
 					ref={graphRef}
 				/>
 			</ReactFlowProvider>
-			<ToastContainer className="position-absolute start-50 translate-middle-x">
-				<br />
-				<br />
-				<br />
-				{errors.map((err) => {
-					return (
-						<Toast
-							onClose={() => {
-								setErrors(errors.filter((e) => e !== err));
-							}}
-							show={true}
-							delay={10000}
-							autohide
-							bg="warning"
-							class="opacity-50"
-						>
-							<Toast.Header>
-								<Badge bg="danger">!</Badge>
-								&nbsp; &nbsp;
-								<strong className="mr-auto">{err.error}</strong>
-							</Toast.Header>
-							<Toast.Body>
-								Error message: {err.message} <br />{" "}
-								<small>Remediation: {err.detail}</small>
-							</Toast.Body>
-						</Toast>
-					);
-				})}
-			</ToastContainer>
 		</div>
 	);
 }
