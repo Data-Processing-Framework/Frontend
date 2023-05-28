@@ -6,11 +6,11 @@ import { conectionPath } from "../API/globals";
 
 export function LogCard({ closeInfo, node, open }) {
   const [info, setInfo] = useState();
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
-  const [tempStartDate, setTempStartDate] = useState("");
-  const [tempEndDate, setTempEndDate] = useState("");
 
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");   
+  const [tempStartTime, setTempStartTime] = useState("");
+  const [tempEndTime, setTempEndTime] = useState("");
 
   
   const myInterval = useRef();
@@ -27,7 +27,7 @@ export function LogCard({ closeInfo, node, open }) {
       clearInterval(myInterval.current);
       myInterval.current = null;
     }
-  }, [open,node,startDate,endDate]);
+  }, [open,node,startTime,endTime]);
 
   function getAlerts() {
     const requestOptions = {
@@ -35,8 +35,8 @@ export function LogCard({ closeInfo, node, open }) {
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
         number: 10,
-        fromDate: startDate,
-        toDate: endDate,
+        fromDate: startTime,
+        toDate: endTime,
       }),
     };
     fetch(conectionPath + "/graph/logs/" + node.data.name, requestOptions)
@@ -50,9 +50,9 @@ export function LogCard({ closeInfo, node, open }) {
   }
 
   const handleSubmit = () => {
-    setStartDate(tempStartDate)  
-    setEndDate(tempEndDate) 
-    console.log(startDate)
+    setStartTime(tempStartTime.replace("T", ' '))  
+    setEndTime(tempEndTime.replace("T", ' '))
+    console.log(tempStartTime.replace("T", ' '))
     // Perform your function here
   };
   return (
@@ -62,20 +62,23 @@ export function LogCard({ closeInfo, node, open }) {
       </div>
       <div className="logsForm">
           <input
-            type="time"
+            type="datetime-local"
             id="timeInit"
 			className=""
             name="timeInit"
-            onClick={(e) => setTempStartDate(e.target.value)}
+            onChange={(e) => setTempStartTime(e.target.value)}
             required
+            step="2"
           />
+      </div>
+      <div className="logsForm">
           <input
-            type="time"
+            type="datetime-local"
             id="timeEnd"
-			className=""
-
+		      	className=""
+            step="2"
             name="timeEnd"
-            onClick={(e) => setTempEndDate(e.target.value)}
+            onChange={(e) => setTempEndTime(e.target.value)}
             required
           />
           <button type="submit" className="form--close" onClick={handleSubmit}>Submit</button>
