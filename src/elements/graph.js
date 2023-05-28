@@ -115,7 +115,7 @@ export const Graph = forwardRef((props, ref) => {
 		console.log(props.modules[indexTarget].type_in);
 		if (
 			props.modules[indexTarget].type_in.includes(
-				props.modules[indexSource].type_out[0]
+				JSON.parse(props.modules[indexSource].type_out)[0]
 			) ||
 			props.modules[indexTarget].type_in == "any" ||
 			props.modules[indexSource].type_out[0] == "any"
